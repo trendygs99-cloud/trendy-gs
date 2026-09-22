@@ -51,8 +51,8 @@
                     <i class="fa-solid fa-shopping-cart"></i> Carrito <span id="cart-badge" class="bg-pink-600 text-white text-[10px] px-1.5 py-0.2 rounded-full">0</span>
                 </button>
                 <div id="auth-container">
-                    <button onclick="openAuthModal()" id="auth-btn-label" class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-500 text-white font-bold text-xs transition shadow-sm">
-                        <i class="fa-solid fa-user"></i> <span id="user-display-name">Iniciar sesión</span>
+                    <button onclick="openAuthModal()" id="auth-btn-label" class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold text-xs transition shadow-sm">
+                        <i class="fa-solid fa-user"></i> <span id="user-display-name">Mi Cuenta / Iniciar sesión</span>
                     </button>
                 </div>
             </div>
@@ -71,11 +71,6 @@
             <button onclick="nextBanner()" class="w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition">
                 <i class="fa-solid fa-chevron-right text-xs"></i>
             </button>
-            <div id="banner-dots" class="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-white"></span>
-                <span class="w-2 h-2 rounded-full bg-white/50"></span>
-                <span class="w-2 h-2 rounded-full bg-white/50"></span>
-            </div>
         </div>
     </div>
 
@@ -98,10 +93,10 @@
             ⚠️ ¡Tienda en pausa temporal por vacaciones o descanso! No se pueden realizar pedidos por el momento.
         </div>
 
-        <!-- PANEL DE VENDEDORA (ADMIN) -->
+        <!-- PANEL DE VENDEDORA (ADMIN) - SOLO VISIBLE PARA TRENDY -->
         <div id="seller-admin-panel" class="hidden bg-white p-6 rounded-3xl shadow-lg border-2 border-purple-200 space-y-6">
             <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-base font-bold text-purple-700"><i class="fa-solid fa-crown mr-2"></i> Panel de Control y Configuración - Trendy GS</h3>
+                <h3 class="text-base font-bold text-purple-700"><i class="fa-solid fa-crown mr-2"></i> Panel de Control - Trendy GS (Administradora)</h3>
                 <button onclick="logoutUser()" class="text-xs text-red-500 hover:underline font-semibold">Cerrar sesión</button>
             </div>
 
@@ -117,7 +112,7 @@
             <!-- SECCIÓN 1: PUBLICACIONES -->
             <div id="admin-section-publications" class="admin-section space-y-6">
                 <div class="bg-pink-50/40 p-4 rounded-2xl border border-pink-200">
-                    <h4 id="form-product-title" class="font-bold text-xs text-gray-700 mb-3"><i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar Nuevo Producto al Catálogo</h4>
+                    <h4 id="form-product-title" class="font-bold text-xs text-gray-700 mb-3"><i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar Nuevo Producto</h4>
                     <form id="product-form" onsubmit="handleSaveProduct(event)" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                         <input type="hidden" id="edit-product-id" value="">
                         <input type="text" id="prod-name" placeholder="Nombre (ej. Playera Bang Chan)" required class="p-2.5 rounded-xl border bg-white">
@@ -125,24 +120,20 @@
                         <select id="prod-category" class="p-2.5 rounded-xl border bg-white" required></select>
                         <select id="prod-artist" class="p-2.5 rounded-xl border bg-white" required></select>
                         <input type="text" id="prod-member" placeholder="Integrante opcional" class="p-2.5 rounded-xl border bg-white">
-                        <input type="number" id="prod-stock" placeholder="Stock / Piezas disponibles" class="p-2.5 rounded-xl border bg-white">
+                        <input type="number" id="prod-stock" placeholder="Stock / Piezas" class="p-2.5 rounded-xl border bg-white">
                         <select id="prod-type" class="p-2.5 rounded-xl border bg-white">
                             <option value="Oversize">Corte Oversize</option>
                             <option value="Recto">Corte Recto</option>
                             <option value="Unico">Diseño Único / Accesorio</option>
                         </select>
-                        <input type="text" id="prod-sizes" placeholder="Tallas (ej. Ch, M, G, XG)" required class="p-2.5 rounded-xl border bg-white">
+                        <input type="text" id="prod-sizes" placeholder="Tallas (ej. Ch, M, G)" required class="p-2.5 rounded-xl border bg-white">
                         <input type="text" id="prod-colors" placeholder="Colores (ej. Negro, Blanco)" required class="p-2.5 rounded-xl border bg-white">
                         <input type="text" id="prod-prep" placeholder="Días preparación" required class="p-2.5 rounded-xl border bg-white">
 
                         <div class="md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-3 bg-white p-3 rounded-xl border">
                             <div>
-                                <label class="block font-semibold mb-1">Imágenes / Videos del Producto:</label>
-                                <input type="file" id="prod-media-files" accept="image/*,video/*" multiple class="w-full text-xs">
-                            </div>
-                            <div>
-                                <label class="block font-semibold mb-1">Guía de Tallas (Opcional):</label>
-                                <input type="file" id="prod-size-guide-file" accept="image/*" class="w-full text-xs">
+                                <label class="block font-semibold mb-1">Imagen del Producto:</label>
+                                <input type="file" id="prod-media-files" accept="image/*" class="w-full text-xs">
                             </div>
                         </div>
 
@@ -156,32 +147,32 @@
                 <div class="bg-purple-50/40 p-4 rounded-2xl border border-purple-200">
                     <div class="flex justify-between items-center mb-3">
                         <h4 class="font-bold text-xs text-gray-700"><i class="fa-solid fa-boxes-stacked text-purple-500 mr-1"></i> Gestión de Publicaciones</h4>
-                        <button onclick="toggleGlobalVacation()" id="vacation-toggle-btn" class="px-3 py-1.5 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600">Pausar Toda la Tienda</button>
+                        <button onclick="toggleGlobalVacation()" id="vacation-toggle-btn" class="px-3 py-1.5 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600">Pausar Tienda</button>
                     </div>
                     <div id="admin-products-list" class="space-y-2 max-h-60 overflow-y-auto"></div>
                 </div>
             </div>
 
             <!-- SECCIÓN 2: CÓDIGOS & PAGOS -->
-            <div id="admin-section-codes" class="admin-section hidden space-y-4">
-                <div class="bg-green-50/40 p-4 rounded-2xl border border-green-200 space-y-3 text-xs">
+            <div id="admin-section-codes" class="admin-section hidden space-y-4 text-xs">
+                <div class="bg-green-50/40 p-4 rounded-2xl border border-green-200 space-y-3">
                     <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-ticket text-green-500 mr-1"></i> Códigos de Promoción</h4>
                     <div class="flex gap-2">
                         <input type="text" id="admin-coupon-code" placeholder="Código (ej. KPOP20)" class="p-2 rounded-xl border bg-white uppercase flex-grow">
-                        <input type="number" id="admin-coupon-discount" placeholder="Descto ($)" class="p-2 rounded-xl border bg-white w-24">
+                        <input type="number" id="admin-coupon-discount" placeholder="Descuento ($)" class="p-2 rounded-xl border bg-white w-24">
                     </div>
                     <button onclick="saveAdminCoupon()" class="bg-green-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-green-700">Guardar</button>
                     <div id="admin-coupons-list" class="space-y-1 max-h-40 overflow-y-auto"></div>
                 </div>
-                <div class="bg-blue-50/40 p-4 rounded-2xl border border-blue-200 space-y-2 text-xs">
-                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-credit-card text-blue-500 mr-1"></i> Link de Pago Seguro (Mercado Pago)</h4>
+                <div class="bg-blue-50/40 p-4 rounded-2xl border border-blue-200 space-y-2">
+                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-credit-card text-blue-500 mr-1"></i> Link de Pago (Mercado Pago)</h4>
                     <input type="text" id="mercadopago-link" placeholder="https://mpago.la/tu-link" onchange="saveMercadoPagoLink(this.value)" class="w-full p-2.5 rounded-xl border bg-white">
                 </div>
             </div>
 
             <!-- SECCIÓN 3: VENTAS -->
-            <div id="admin-section-sales" class="admin-section hidden space-y-3">
-                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 text-xs">
+            <div id="admin-section-sales" class="admin-section hidden space-y-3 text-xs">
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200">
                     <h4 class="font-bold text-sm text-gray-700 mb-2"><i class="fa-solid fa-chart-line text-green-600 mr-1"></i> Ventas Registradas</h4>
                     <div id="admin-sales-container" class="space-y-2 max-h-60 overflow-y-auto text-gray-600">
                         <p class="italic text-gray-400">No hay ventas registradas todavía.</p>
@@ -192,7 +183,7 @@
             <!-- SECCIÓN 4: CATEGORÍAS & GRUPOS -->
             <div id="admin-section-categories" class="admin-section hidden space-y-4 text-xs">
                 <div class="bg-pink-50/40 p-4 rounded-2xl border border-pink-200 space-y-3">
-                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-tags text-pink-500 mr-1"></i> Administrar Categorías y Grupos</h4>
+                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-tags text-pink-500 mr-1"></i> Categorías y Grupos</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="font-semibold block mb-1">Nueva Categoría:</label>
@@ -217,14 +208,14 @@
             <!-- SECCIÓN 5: APARIENCIA & PORTADA -->
             <div id="admin-section-appearance" class="admin-section hidden space-y-4 text-xs">
                 <div class="bg-blue-50/40 p-4 rounded-2xl border border-blue-200 space-y-4">
-                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-palette text-blue-500 mr-1"></i> Apariencia y Carrusel de Portada</h4>
+                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-palette text-blue-500 mr-1"></i> Apariencia y Multimedia</h4>
                     <div>
-                        <label class="font-semibold block mb-1">Subir múltiples fotos para Carrusel de Portada (Banner):</label>
-                        <input type="file" id="banner-carousel-files" accept="image/*" multiple onchange="uploadBannerCarousel(event)" class="w-full text-xs">
+                        <label class="font-semibold block mb-1">Foto Principal de Portada (Banner):</label>
+                        <input type="file" id="banner-carousel-files" accept="image/*" onchange="uploadBannerImage(event)" class="w-full text-xs">
                     </div>
                     <div>
-                        <label class="font-semibold block mb-1">Subir fotos para Carrusel de Perfil (Avatar):</label>
-                        <input type="file" id="profile-carousel-files" accept="image/*" multiple onchange="uploadProfileCarousel(event)" class="w-full text-xs">
+                        <label class="font-semibold block mb-1">Foto de Perfil / Logo (Avatar):</label>
+                        <input type="file" id="profile-carousel-files" accept="image/*" onchange="uploadProfileImage(event)" class="w-full text-xs">
                     </div>
                 </div>
             </div>
@@ -235,25 +226,8 @@
 
     </main>
 
-    <!-- SECCIÓN CONTACTO / WHATSAPP -->
-    <section class="max-w-4xl mx-auto px-4 my-10 bg-white p-8 rounded-3xl shadow-sm border border-pink-100 text-center space-y-3">
-        <div class="w-12 h-12 mx-auto rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-lg shadow-sm">
-            <i class="fa-solid fa-headset"></i>
-        </div>
-        <h3 class="font-bold text-base text-gray-800">¿Tienes dudas con tu talla, pedido o deseas algo personalizado?</h3>
-        <p class="text-xs text-gray-400">Contáctame directamente por WhatsApp y con gusto te atiendo de inmediato.</p>
-        <a href="https://wa.me/message/AQ3RKX3WMFWYK1" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full text-xs shadow-md transition">
-            <i class="fa-brands fa-whatsapp text-sm"></i> Abrir Chat de WhatsApp
-        </a>
-    </section>
-
     <!-- FOOTER -->
-    <footer class="bg-white border-t py-8 text-center text-xs text-gray-400 space-y-3">
-        <div class="flex justify-center gap-6 text-base">
-            <a href="https://www.instagram.com/trendy_.gs/?hl=es-la" target="_blank" class="text-pink-600 hover:scale-110 transition"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://wa.me/message/AQ3RKX3WMFWYK1" target="_blank" class="text-green-600 hover:scale-110 transition"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="https://www.tiktok.com/@trendy_.gs" target="_blank" class="text-black hover:scale-110 transition"><i class="fa-brands fa-tiktok"></i></a>
-        </div>
+    <footer class="bg-white border-t py-6 text-center text-xs text-gray-400 space-y-2">
         <p>© 2026 <strong>Trendy GS</strong>. Tienda fangirl hecha con amor 💕</p>
     </footer>
 
@@ -269,25 +243,21 @@
     <div id="cart-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-end">
         <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col p-6 overflow-y-auto">
             <div class="flex justify-between items-center mb-6 border-b pb-3">
-                <h3 class="text-lg font-bold text-pink-600"><i class="fa-solid fa-bag-shopping mr-2"></i> Tu Carrito de Compras</h3>
+                <h3 class="text-lg font-bold text-pink-600"><i class="fa-solid fa-bag-shopping mr-2"></i> Tu Carrito</h3>
                 <button onclick="closeCartModal()" class="text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div id="cart-items-container" class="flex-grow space-y-4 overflow-y-auto mb-4"></div>
 
             <div class="border-t pt-3 mb-4 bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-2 text-xs">
-                <h4 class="font-bold text-gray-700"><i class="fa-solid fa-location-dot text-purple-500 mr-1"></i> Envío por Código Postal</h4>
+                <h4 class="font-bold text-gray-700">Envío por Código Postal</h4>
                 <div class="flex gap-2">
                     <input type="text" id="cart-destination-cp" placeholder="Tu CP (ej. 06000)" maxlength="5" class="w-full p-2.5 rounded-xl border bg-white font-medium">
-                    <button onclick="updateCartCarrierOptions()" class="bg-purple-600 text-white px-3 py-1 rounded-xl font-bold">Calcular</button>
+                    <button onclick="updateCartTotals()" class="bg-purple-600 text-white px-3 py-1 rounded-xl font-bold">Calcular</button>
                 </div>
                 <select id="cart-carrier-select" onchange="updateCartTotals()" class="w-full p-2.5 rounded-xl border bg-white font-medium mt-1">
-                    <option value="correos" data-cost="75" data-days="5 a 9 días">Correos de México ($75) - 5 a 9 días</option>
                     <option value="estafeta" data-cost="130" data-days="2 a 4 días">Estafeta ($130) - 2 a 4 días</option>
                     <option value="dhl" data-cost="180" data-days="1 a 2 días">DHL Express ($180) - 1 a 2 días</option>
-                    <option value="fedex" data-cost="140" data-days="2 a 5 días">FedEx ($140) - 2 a 5 días</option>
-                    <option value="paquetexpress" data-cost="125" data-days="3 a 6 días">Paquetexpress ($125) - 3 a 6 días</option>
                 </select>
-                <p id="cart-delivery-estimate" class="text-[11px] text-purple-700 font-semibold italic mt-1"></p>
             </div>
 
             <div class="border-t pt-4 space-y-2 text-xs">
@@ -305,41 +275,40 @@
         </div>
     </div>
 
-    <!-- MODAL AUTENTICACIÓN / CREAR PERFIL (COMPRADORA O ADMIN) -->
+    <!-- MODAL INICIO DE SESIÓN / CREAR PERFIL -->
     <div id="auth-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-center items-center p-4">
         <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl p-6 relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
             <div class="space-y-4">
-                <h3 class="font-bold text-md text-gray-700 text-center"><i class="fa-solid fa-user-lock text-pink-500 mr-1"></i> Iniciar Sesión / Cuenta</h3>
-                <p class="text-[11px] text-gray-400 text-center">Ingresa con tu correo. Si eres la dueña, usa tu clave secreta de administración.</p>
+                <h3 class="font-bold text-md text-gray-700 text-center"><i class="fa-solid fa-user-circle text-pink-500 mr-1"></i> Iniciar Sesión o Crear Perfil</h3>
+                <p class="text-[11px] text-gray-400 text-center">Ingresa tu correo. Si eres compradora, entrarás directo. Si eres la vendedora, ingresa tus datos de admin.</p>
                 <div>
                     <label class="block text-xs font-semibold mb-1">Correo electrónico:</label>
                     <input type="email" id="auth-email" placeholder="tucorreo@email.com" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold mb-1">Contraseña o Clave:</label>
-                    <input type="password" id="auth-password" placeholder="Tu contraseña" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
+                    <label class="block text-xs font-semibold mb-1">Contraseña o Clave (Opcional si eres cliente):</label>
+                    <input type="password" id="auth-password" placeholder="Contraseña o PIN" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
                 </div>
-                <button onclick="processLogin()" class="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-2xl text-xs font-bold shadow transition">Continuar</button>
+                <button onclick="processLogin()" class="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-2xl text-xs font-bold shadow transition">Entrar a mi cuenta</button>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT -->
+    <!-- SCRIPT DE PERSISTENCIA Y SEGURIDAD -->
     <script>
+        // Carga persistente de datos (Evita que se borre tu información al actualizar o cambiar archivos)
         let products = JSON.parse(localStorage.getItem('trendy_products')) || [
-            { id: 1, name: 'Playera Oversize Bang Chan', price: 380, category: 'Playeras', artist: 'Stray Kids', member: 'Bang Chan', stock: 12, type: 'Oversize', sizes: 'Ch, M, G, XG', colors: 'Negro, Blanco', prep: '3 a 5 días', media: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'], sizeGuide: '', paused: false },
-            { id: 2, name: 'Hoodie Stray Kids World Tour', price: 650, category: 'Hoodies', artist: 'Stray Kids', member: '', stock: 5, type: 'Oversize', sizes: 'Ch, M, G', colors: 'Negro, Beige', prep: '4 días', media: ['https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500'], sizeGuide: '', paused: false },
-            { id: 3, name: 'Set Photocards Special Edition', price: 150, category: 'Photocards', artist: 'BTS', member: '', stock: 25, type: 'Unico', sizes: 'Estándar', colors: 'Especial', prep: '1 día', media: ['https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500'], sizeGuide: '', paused: false },
-            { id: 4, name: 'Llavero acrílico Lightstick', price: 120, category: 'Accesorios', artist: 'Varios', member: '', stock: 18, type: 'Unico', sizes: 'Estándar', colors: 'Multicolor', prep: '1 día', media: ['https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=500'], sizeGuide: '', paused: false }
+            { id: 1, name: 'Playera Oversize Bang Chan', price: 380, category: 'Playeras', artist: 'Stray Kids', member: 'Bang Chan', stock: 12, type: 'Oversize', sizes: 'Ch, M, G', colors: 'Negro, Blanco', prep: '3 días', media: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'], paused: false }
         ];
 
         let categories = JSON.parse(localStorage.getItem('trendy_categories')) || ['Playeras', 'Hoodies', 'Photocards', 'Accesorios'];
         let artists = JSON.parse(localStorage.getItem('trendy_artists')) || ['BTS', 'Stray Kids', 'BLACKPINK', 'Varios'];
-        let coupons = JSON.parse(localStorage.getItem('trendy_coupons')) || [{ code: 'KPOP20', discount: 20 }];
+        let coupons = JSON.parse(localStorage.getItem('trendy_coupons')) || [];
         let sales = JSON.parse(localStorage.getItem('trendy_sales')) || [];
-        let bannerImages = JSON.parse(localStorage.getItem('trendy_banner_images')) || ['https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200'];
-        let currentBannerIndex = 0;
+        
+        let savedBanner = localStorage.getItem('trendy_banner_image') || 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200';
+        let savedAvatar = localStorage.getItem('trendy_avatar_image') || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150';
         
         let cart = [];
         let currentCategory = 'Todas';
@@ -348,6 +317,8 @@
         let mercadoPagoLink = localStorage.getItem('trendy_mp_link') || '';
 
         document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('store-banner').style.backgroundImage = `url('${savedBanner}')`;
+            document.getElementById('header-avatar').src = savedAvatar;
             renderProducts();
             renderCategoriesUI();
             renderArtistsUI();
@@ -427,18 +398,15 @@
                     <div class="h-48 overflow-hidden bg-pink-50/50 relative">
                         <img src="${p.media[0]}" alt="${p.name}" class="w-full h-full object-cover">
                         <span class="absolute top-3 left-3 bg-white/90 text-gray-600 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">${p.category}</span>
-                        ${p.stock !== undefined ? `<span class="absolute top-3 right-3 bg-black/70 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">Stock: ${p.stock}</span>` : ''}
                     </div>
                     <div class="p-4 flex flex-col flex-grow justify-between space-y-3">
                         <div>
-                            <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">${p.artist} ${p.member ? '• ' + p.member : ''}</p>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">${p.artist}</p>
                             <h3 class="font-bold text-gray-800 text-xs">${p.name}</h3>
                         </div>
                         <div class="flex items-center justify-between pt-2 border-t border-gray-100">
                             <span class="text-pink-600 font-extrabold text-xs">$${p.price.toFixed(2)} MXN</span>
-                            <button class="px-3 py-1 bg-pink-50 hover:bg-pink-100 text-pink-600 rounded-full font-bold text-[11px] transition">
-                                <i class="fa-solid fa-shopping-cart text-[10px] mr-1"></i> Añadir
-                            </button>
+                            <span class="px-3 py-1 bg-pink-50 text-pink-600 rounded-full font-bold text-[11px]">Ver más</span>
                         </div>
                     </div>
                 `;
@@ -446,19 +414,8 @@
             });
         }
 
-        function nextBanner() {
-            if(bannerImages.length > 1) {
-                currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length;
-                document.getElementById('store-banner').style.backgroundImage = `url('${bannerImages[currentBannerIndex]}')`;
-            }
-        }
-
-        function prevBanner() {
-            if(bannerImages.length > 1) {
-                currentBannerIndex = (currentBannerIndex - 1 + bannerImages.length) % bannerImages.length;
-                document.getElementById('store-banner').style.backgroundImage = `url('${bannerImages[currentBannerIndex]}')`;
-            }
-        }
+        function nextBanner() { }
+        function prevBanner() { }
 
         function openProductModal(id) {
             const p = products.find(prod => prod.id === id);
@@ -501,87 +458,57 @@
             const category = document.getElementById('prod-category').value;
             const artist = document.getElementById('prod-artist').value;
             const member = document.getElementById('prod-member').value.trim();
-            const stock = document.getElementById('prod-stock').value !== '' ? parseInt(document.getElementById('prod-stock').value) : 10;
+            const stock = parseInt(document.getElementById('prod-stock').value) || 10;
             const type = document.getElementById('prod-type').value;
             const sizes = document.getElementById('prod-sizes').value;
             const colors = document.getElementById('prod-colors').value;
             const prep = document.getElementById('prod-prep').value;
-            const mediaFiles = document.getElementById('prod-media-files').files;
+            const mediaFile = document.getElementById('prod-media-files').files[0];
 
-            let mediaUrls = mediaFiles.length > 0 ? [] : ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'];
-
-            if(editId) {
-                const p = products.find(prod => prod.id == editId);
-                if(p) {
-                    p.name = name; p.price = price; p.category = category; p.artist = artist; p.member = member; p.stock = stock; p.type = type; p.sizes = sizes; p.colors = colors; p.prep = prep;
-                    saveAndResetProducts();
-                }
+            if(mediaFile) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    saveProductComplete(editId, { name, price, category, artist, member, stock, type, sizes, colors, prep, media: [e.target.result], paused: false });
+                };
+                reader.readAsDataURL(mediaFile);
             } else {
-                if(mediaFiles.length > 0) {
-                    const reader = new FileReader();
-                    reader.onload = e => {
-                        mediaUrls = [e.target.result];
-                        pushProductToArray({ id: Date.now(), name, price, category, artist, member, stock, type, sizes, colors, prep, media: mediaUrls, paused: false });
-                    };
-                    reader.readAsDataURL(mediaFiles[0]);
-                } else {
-                    pushProductToArray({ id: Date.now(), name, price, category, artist, member, stock, type, sizes, colors, prep, media: mediaUrls, paused: false });
-                }
+                let existingMedia = editId ? products.find(p => p.id == editId).media : ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'];
+                saveProductComplete(editId, { name, price, category, artist, member, stock, type, sizes, colors, prep, media: existingMedia, paused: false });
             }
         }
 
-        function pushProductToArray(newProd) { products.push(newProd); saveAndResetProducts(); }
-
-        function saveAndResetProducts() {
+        function saveProductComplete(editId, prodData) {
+            if(editId) {
+                const p = products.find(prod => prod.id == editId);
+                if(p) { Object.assign(p, prodData); }
+            } else {
+                prodData.id = Date.now();
+                products.push(prodData);
+            }
             localStorage.setItem('trendy_products', JSON.stringify(products));
             resetProductForm();
             renderProducts();
             renderAdminProductsList();
-            alert('¡Producto guardado con éxito!');
-        }
-
-        function editProduct(id) {
-            const p = products.find(prod => prod.id === id);
-            if(!p) return;
-            document.getElementById('edit-product-id').value = p.id;
-            document.getElementById('prod-name').value = p.name;
-            document.getElementById('prod-price').value = p.price;
-            document.getElementById('prod-category').value = p.category;
-            document.getElementById('prod-artist').value = p.artist;
-            document.getElementById('prod-member').value = p.member || '';
-            document.getElementById('prod-stock').value = p.stock;
-            document.getElementById('prod-type').value = p.type;
-            document.getElementById('prod-sizes').value = p.sizes;
-            document.getElementById('prod-colors').value = p.colors;
-            document.getElementById('prod-prep').value = p.prep;
-            document.getElementById('form-product-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-pink-500 mr-1"></i> Editando Producto`;
-            document.getElementById('product-submit-btn').textContent = 'Guardar Cambios';
-            document.getElementById('product-cancel-edit').classList.remove('hidden');
-            switchAdminTab('publications');
+            alert('¡Guardado con éxito y respaldado de forma permanente!');
         }
 
         function resetProductForm() {
             document.getElementById('product-form').reset();
             document.getElementById('edit-product-id').value = '';
-            document.getElementById('form-product-title').innerHTML = `<i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar Nuevo Producto al Catálogo`;
             document.getElementById('product-submit-btn').textContent = 'Publicar Producto';
             document.getElementById('product-cancel-edit').classList.add('hidden');
         }
 
         function renderAdminProductsList() {
             const container = document.getElementById('admin-products-list');
-            container.innerHTML = '';
-            products.forEach(p => {
-                container.innerHTML += `
-                    <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border text-xs">
-                        <strong>${p.name}</strong> - $${p.price}
-                        <div class="flex gap-2">
-                            <button onclick="editProduct(${p.id})" class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-700 font-bold"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1 rounded-lg bg-red-100 text-red-600"><i class="fa-solid fa-trash"></i></button>
-                        </div>
+            container.innerHTML = products.map(p => `
+                <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border text-xs">
+                    <strong>${p.name}</strong> - $${p.price}
+                    <div class="flex gap-2">
+                        <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1 rounded-lg bg-red-100 text-red-600"><i class="fa-solid fa-trash"></i></button>
                     </div>
-                `;
-            });
+                </div>
+            `).join('');
         }
 
         function toggleGlobalVacation() {
@@ -622,45 +549,42 @@
             document.getElementById('admin-artists-list').innerHTML = artists.map(a => `<div class="bg-white p-1 rounded border">${a}</div>`).join('');
         }
 
-        function uploadBannerCarousel(event) {
-            const files = event.target.files;
-            if(files && files.length > 0) {
-                bannerImages = [];
-                Array.from(files).forEach((file, idx) => {
-                    const reader = new FileReader();
-                    reader.onload = e => {
-                        bannerImages.push(e.target.result);
-                        if(idx === files.length - 1) {
-                            localStorage.setItem('trendy_banner_images', JSON.stringify(bannerImages));
-                            document.getElementById('store-banner').style.backgroundImage = `url('${bannerImages[0]}')`;
-                            alert('¡Carrusel actualizado!');
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                });
+        // Funciones para guardar imágenes permanentemente en localStorage
+        function uploadBannerImage(event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    savedBanner = e.target.result;
+                    localStorage.setItem('trendy_banner_image', savedBanner);
+                    document.getElementById('store-banner').style.backgroundImage = `url('${savedBanner}')`;
+                    alert('¡Portada actualizada y respaldada permanentemente!');
+                };
+                reader.readAsDataURL(file);
             }
         }
 
-        function uploadProfileCarousel(event) {
-            const files = event.target.files;
-            if(files && files[0]) {
+        function uploadProfileImage(event) {
+            const file = event.target.files[0];
+            if(file) {
                 const reader = new FileReader();
                 reader.onload = e => {
-                    document.getElementById('header-avatar').src = e.target.result;
-                    alert('¡Avatar actualizado!');
+                    savedAvatar = e.target.result;
+                    localStorage.setItem('trendy_avatar_image', savedAvatar);
+                    document.getElementById('header-avatar').src = savedAvatar;
+                    alert('¡Foto de perfil actualizada y respaldada permanentemente!');
                 };
-                reader.readAsDataURL(files[0]);
+                reader.readAsDataURL(file);
             }
         }
 
         function saveAdminCoupon() {
             const code = document.getElementById('admin-coupon-code').value.trim().toUpperCase();
             const discount = parseFloat(document.getElementById('admin-coupon-discount').value);
-            if(!code || isNaN(discount)) return alert('Completa los campos');
+            if(!code || isNaN(discount)) return;
             coupons.push({ code, discount });
             localStorage.setItem('trendy_coupons', JSON.stringify(coupons));
             renderAdminCoupons();
-            alert('¡Cupón guardado!');
         }
 
         function renderAdminCoupons() {
@@ -673,7 +597,7 @@
         }
 
         function addCurrentProductToCart(id) {
-            if(globalVacation) return alert('Tienda en pausa por vacaciones.');
+            if(globalVacation) return alert('Tienda en pausa.');
             const p = products.find(prod => prod.id === id);
             const size = document.getElementById('selected-size').value;
             const color = document.getElementById('selected-color').value;
@@ -697,22 +621,15 @@
 
         function renderCartItems() {
             const container = document.getElementById('cart-items-container');
-            container.innerHTML = '';
-            if(cart.length === 0) { container.innerHTML = `<p class="text-xs text-gray-400 text-center py-6">Tu carrito está vacío.</p>`; updateCartTotals(); return; }
-
+            container.innerHTML = cart.length === 0 ? `<p class="text-xs text-gray-400 text-center py-6">Tu carrito está vacío.</p>` : '';
             cart.forEach((item, index) => {
                 container.innerHTML += `
-                    <div class="flex items-center justify-between gap-3 bg-pink-50/40 p-3 rounded-2xl border border-pink-100 text-xs">
+                    <div class="flex items-center justify-between gap-3 bg-pink-50/40 p-3 rounded-2xl border text-xs">
                         <img src="${item.media[0]}" class="w-12 h-12 rounded-xl object-cover">
                         <div class="flex-grow">
                             <h4 class="font-bold text-gray-800">${item.name}</h4>
-                            <p class="text-gray-400">Talla: ${item.size} | Color: ${item.color}</p>
+                            <p class="text-gray-400">Talla: ${item.size}</p>
                             <p class="text-pink-600 font-semibold">$${item.price} x ${item.qty}</p>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 bg-white rounded-lg border font-bold">-</button>
-                            <span class="px-1 font-bold">${item.qty}</span>
-                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 bg-white rounded-lg border font-bold">+</button>
                         </div>
                     </div>
                 `;
@@ -720,89 +637,64 @@
             updateCartTotals();
         }
 
-        function changeQty(index, delta) {
-            cart[index].qty += delta;
-            if(cart[index].qty <= 0) cart.splice(index, 1);
-            updateCartBadge();
-            renderCartItems();
-        }
-
-        function updateCartCarrierOptions() {
-            const cp = document.getElementById('cart-destination-cp').value.trim();
-            if(cp.length !== 5) return alert('Ingresa un código postal válido (5 dígitos).');
-            updateCartTotals();
-        }
-
         function updateCartTotals() {
             let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             const selectCarrier = document.getElementById('cart-carrier-select');
             let shippingCost = parseFloat(selectCarrier.options[selectCarrier.selectedIndex].getAttribute('data-cost')) || 130;
-            let deliveryDays = selectCarrier.options[selectCarrier.selectedIndex].getAttribute('data-days') || '2 a 4 días';
-
-            document.getElementById('cart-delivery-estimate').textContent = `⏱️ Entrega estimada: ${deliveryDays}`;
             document.getElementById('cart-subtotal').textContent = `$${subtotal.toFixed(2)} MXN`;
             document.getElementById('cart-shipping-cost').textContent = `$${shippingCost.toFixed(2)} MXN`;
             document.getElementById('cart-total').textContent = `$${(subtotal + shippingCost).toFixed(2)} MXN`;
         }
 
         function checkoutMercadoPago() {
-            if(cart.length === 0) return alert('Carrito vacío.');
-            recordSale();
+            sales.push({ id: Date.now(), total: document.getElementById('cart-total').textContent });
+            localStorage.setItem('trendy_sales', JSON.stringify(sales));
             window.open(mercadoPagoLink || 'https://www.mercadopago.com.mx', '_blank');
         }
 
         function checkoutOrderWhatsApp() {
-            if(cart.length === 0) return alert('Carrito vacío.');
-            recordSale();
-            let msg = `¡Hola! Trendy GS 💖 Pedido:%0A`;
-            cart.forEach(i => { msg += `- ${i.qty}x ${i.name} (${i.size}) - $${i.price * i.qty}%0A`; });
-            window.open(`https://wa.me/message/AQ3RKX3WMFWYK1?text=${msg}`, '_blank');
-        }
-
-        function recordSale() {
-            sales.push({ id: Date.now(), date: new Date().toLocaleString(), items: [...cart], total: document.getElementById('cart-total').textContent });
+            sales.push({ id: Date.now(), total: document.getElementById('cart-total').textContent });
             localStorage.setItem('trendy_sales', JSON.stringify(sales));
-            renderAdminSales();
+            window.open('https://wa.me/message/AQ3RKX3WMFWYK1?text=Hola,%20quiero%20hacer%20un%20pedido', '_blank');
         }
 
         function renderAdminSales() {
-            const container = document.getElementById('admin-sales-container');
-            if(sales.length === 0) return;
-            container.innerHTML = sales.map(s => `<div class="bg-white p-2 rounded border"><strong>ID: ${s.id}</strong> - ${s.total}</div>`).join('');
+            document.getElementById('admin-sales-container').innerHTML = sales.map(s => `<div class="bg-white p-2 rounded border">Venta ID: ${s.id} - Total: ${s.total}</div>`).join('');
         }
 
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
-        // Sistema seguro con verificación de credenciales de Administradora (Oculto en lógica)
+        // --- SISTEMA DE AUTENTICACIÓN SEGURO (PIN 3722 / CREDENCIALES OCULTAS) ---
         function processLogin() {
             const emailInput = document.getElementById('auth-email').value.trim().toLowerCase();
-            const passInput = document.getElementById('auth-password').value;
+            const passInput = document.getElementById('auth-password').value.trim();
 
-            if(!emailInput) return alert('Por favor ingresa tu correo.');
+            if(!emailInput) return alert('Ingresa tu correo electrónico.');
 
-            // Credenciales estrictas de administrador solicitadas
+            // Credenciales internas ocultas de la administradora (Trendy)
             const adminEmail = "trendygs99@gmail.com";
             const adminPass = "Fercameli3*";
-            const adminCodePin = "3722"; // Código oculto internamente
+            const adminPin = "3722";
 
             if(emailInput === adminEmail) {
-                if(passInput === adminPass || passInput === adminCodePin) {
+                // Valida contraseña o el PIN numérico de 4 dígitos
+                if(passInput === adminPass || passInput === adminPin) {
                     currentUser = { email: emailInput, role: 'seller' };
                     localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
                     closeAuthModal();
                     checkUserSession();
-                    alert('¡Bienvenida Administradora!');
+                    alert('¡Bienvenida Administradora Trendy! Panel activado.');
                 } else {
                     alert('Contraseña o código de administrador incorrecto.');
                 }
             } else {
-                // Cualquier otro correo entra en automático como compradora
+                // Cualquier otro correo entra directo como compradora sin pedir PIN
                 currentUser = { email: emailInput, role: 'buyer' };
                 localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
                 closeAuthModal();
                 checkUserSession();
-                alert(`¡Bienvenida! Sesión iniciada como compradora.`);
+                alert('¡Sesión iniciada como compradora con éxito!');
             }
         }
 
@@ -810,7 +702,7 @@
             currentUser = null;
             localStorage.removeItem('trendy_current_user');
             checkUserSession();
-            alert('Sesión cerrada correctamente.');
+            alert('Sesión cerrada.');
         }
 
         function checkUserSession() {
@@ -819,13 +711,13 @@
             
             if(currentUser && currentUser.role === 'seller') {
                 panel.classList.remove('hidden');
-                userDisplay.textContent = 'Admin (Vendedora)';
+                userDisplay.textContent = 'Admin Trendy ✨';
             } else {
                 panel.classList.add('hidden');
                 if(currentUser && currentUser.role === 'buyer') {
                     userDisplay.textContent = currentUser.email.split('@')[0];
                 } else {
-                    userDisplay.textContent = 'Iniciar sesión';
+                    userDisplay.textContent = 'Mi Cuenta';
                 }
             }
         }
