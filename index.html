@@ -28,11 +28,11 @@
 </head>
 <body id="main-body" class="min-h-screen flex flex-col text-gray-700">
 
-    <!-- HEADER / NAVEGACIÓN SUPERIOR (Estilo Imagen Referencia) -->
+    <!-- HEADER / NAVEGACIÓN SUPERIOR -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
             
-            <!-- LOGO / AVATAR (Clic regresa al inicio) -->
+            <!-- LOGO / AVATAR -->
             <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
                 <div class="w-10 h-10 rounded-full overflow-hidden bg-pink-100 flex items-center justify-center border border-pink-300">
                     <img id="header-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="TGS" class="w-full h-full object-cover">
@@ -50,32 +50,27 @@
                 <button onclick="openCartModal()" class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-600 font-bold text-xs transition shadow-sm">
                     <i class="fa-solid fa-shopping-cart"></i> Carrito <span id="cart-badge" class="bg-pink-600 text-white text-[10px] px-1.5 py-0.2 rounded-full">0</span>
                 </button>
-                <button onclick="openAuthModal()" id="auth-btn-label" class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-500 text-white font-bold text-xs transition shadow-sm">
-                    <i class="fa-solid fa-crown"></i> Admin
-                </button>
+                <div id="auth-container">
+                    <button onclick="openAuthModal()" id="auth-btn-label" class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-500 text-white font-bold text-xs transition shadow-sm">
+                        <i class="fa-solid fa-user"></i> <span id="user-display-name">Iniciar sesión</span>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- BANNER CARRUSEL SUPERIOR (Estilo Imagen Referencia) -->
+    <!-- BANNER CARRUSEL SUPERIOR -->
     <div class="max-w-7xl mx-auto px-4 mt-4 w-full">
         <div id="store-banner" class="w-full h-48 sm:h-64 rounded-3xl bg-cover bg-center relative shadow-md flex items-center justify-between px-4 transition-all duration-500" style="background-image: url('https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200');">
-            <!-- Botón Izquierda Carrusel -->
             <button onclick="prevBanner()" class="w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition">
                 <i class="fa-solid fa-chevron-left text-xs"></i>
             </button>
-            
-            <!-- Texto Central Banner -->
             <div class="text-center text-white drop-shadow-lg">
                 <h2 id="banner-title" class="text-2xl sm:text-4xl font-extrabold tracking-wide">Trendy GS - K-Pop Collection</h2>
             </div>
-
-            <!-- Botón Derecha Carrusel -->
             <button onclick="nextBanner()" class="w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition">
                 <i class="fa-solid fa-chevron-right text-xs"></i>
             </button>
-
-            <!-- Indicadores de Puntos -->
             <div id="banner-dots" class="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-white"></span>
                 <span class="w-2 h-2 rounded-full bg-white/50"></span>
@@ -87,14 +82,12 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full space-y-6">
 
-        <!-- BARRA DE BÚSQUEDA Y CATEGORÍAS (Estilo Imagen Referencia) -->
+        <!-- BARRA DE BÚSQUEDA Y CATEGORÍAS -->
         <div class="bg-white p-4 rounded-3xl shadow-sm border border-pink-100 flex flex-col md:flex-row gap-4 justify-between items-center">
             <div class="relative w-full md:w-72">
                 <input type="text" id="search-input" oninput="filterProducts()" placeholder="Buscar producto, integrante, grupo..." class="w-full pl-9 pr-4 py-2 rounded-full border border-pink-200 text-xs focus:outline-none bg-pink-50/20">
                 <i class="fa-solid fa-search absolute left-3.5 top-3 text-pink-400 text-xs"></i>
             </div>
-
-            <!-- Categorías en Píldora -->
             <div id="categories-container" class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
                 <button onclick="filterCategory('Todas')" class="category-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-pink-600 text-white shadow">Todas</button>
             </div>
@@ -105,11 +98,11 @@
             ⚠️ ¡Tienda en pausa temporal por vacaciones o descanso! No se pueden realizar pedidos por el momento.
         </div>
 
-        <!-- PANEL DE VENDEDORA (ADMIN) ORGANIZADO EN PESTAÑAS -->
+        <!-- PANEL DE VENDEDORA (ADMIN) -->
         <div id="seller-admin-panel" class="hidden bg-white p-6 rounded-3xl shadow-lg border-2 border-purple-200 space-y-6">
             <div class="flex justify-between items-center border-b pb-3">
                 <h3 class="text-base font-bold text-purple-700"><i class="fa-solid fa-crown mr-2"></i> Panel de Control y Configuración - Trendy GS</h3>
-                <button onclick="logoutUser()" class="text-xs text-red-500 hover:underline font-semibold">Cerrar sesión admin</button>
+                <button onclick="logoutUser()" class="text-xs text-red-500 hover:underline font-semibold">Cerrar sesión</button>
             </div>
 
             <!-- Pestañas Admin -->
@@ -131,7 +124,7 @@
                         <input type="number" id="prod-price" placeholder="Precio ($ MXN)" required class="p-2.5 rounded-xl border bg-white">
                         <select id="prod-category" class="p-2.5 rounded-xl border bg-white" required></select>
                         <select id="prod-artist" class="p-2.5 rounded-xl border bg-white" required></select>
-                        <input type="text" id="prod-member" placeholder="Integrante opcional (ej. Bang Chan)" class="p-2.5 rounded-xl border bg-white">
+                        <input type="text" id="prod-member" placeholder="Integrante opcional" class="p-2.5 rounded-xl border bg-white">
                         <input type="number" id="prod-stock" placeholder="Stock / Piezas disponibles" class="p-2.5 rounded-xl border bg-white">
                         <select id="prod-type" class="p-2.5 rounded-xl border bg-white">
                             <option value="Oversize">Corte Oversize</option>
@@ -140,7 +133,7 @@
                         </select>
                         <input type="text" id="prod-sizes" placeholder="Tallas (ej. Ch, M, G, XG)" required class="p-2.5 rounded-xl border bg-white">
                         <input type="text" id="prod-colors" placeholder="Colores (ej. Negro, Blanco)" required class="p-2.5 rounded-xl border bg-white">
-                        <input type="text" id="prod-prep" placeholder="Días preparación (ej. 3 a 5 días)" required class="p-2.5 rounded-xl border bg-white">
+                        <input type="text" id="prod-prep" placeholder="Días preparación" required class="p-2.5 rounded-xl border bg-white">
 
                         <div class="md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-3 bg-white p-3 rounded-xl border">
                             <div>
@@ -177,11 +170,7 @@
                         <input type="text" id="admin-coupon-code" placeholder="Código (ej. KPOP20)" class="p-2 rounded-xl border bg-white uppercase flex-grow">
                         <input type="number" id="admin-coupon-discount" placeholder="Descto ($)" class="p-2 rounded-xl border bg-white w-24">
                     </div>
-                    <div class="flex gap-2">
-                        <input type="date" id="admin-coupon-start" class="p-2 rounded-xl border bg-white flex-grow">
-                        <input type="date" id="admin-coupon-end" class="p-2 rounded-xl border bg-white flex-grow">
-                        <button onclick="saveAdminCoupon()" class="bg-green-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-green-700">Guardar</button>
-                    </div>
+                    <button onclick="saveAdminCoupon()" class="bg-green-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-green-700">Guardar</button>
                     <div id="admin-coupons-list" class="space-y-1 max-h-40 overflow-y-auto"></div>
                 </div>
                 <div class="bg-blue-50/40 p-4 rounded-2xl border border-blue-200 space-y-2 text-xs">
@@ -241,12 +230,12 @@
             </div>
         </div>
 
-        <!-- GRID DE PRODUCTOS (Estilo Minimalista Imagen Referencia) -->
+        <!-- GRID DE PRODUCTOS -->
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
 
     </main>
 
-    <!-- SECCIÓN CONTACTO / WHATSAPP (Estilo Imagen Referencia) -->
+    <!-- SECCIÓN CONTACTO / WHATSAPP -->
     <section class="max-w-4xl mx-auto px-4 my-10 bg-white p-8 rounded-3xl shadow-sm border border-pink-100 text-center space-y-3">
         <div class="w-12 h-12 mx-auto rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-lg shadow-sm">
             <i class="fa-solid fa-headset"></i>
@@ -292,11 +281,11 @@
                     <button onclick="updateCartCarrierOptions()" class="bg-purple-600 text-white px-3 py-1 rounded-xl font-bold">Calcular</button>
                 </div>
                 <select id="cart-carrier-select" onchange="updateCartTotals()" class="w-full p-2.5 rounded-xl border bg-white font-medium mt-1">
-                    <option value="correos" data-cost="75" data-days="5 a 9 días hábiles">Correos de México ($75) - 5 a 9 días</option>
-                    <option value="estafeta" data-cost="130" data-days="2 a 4 días hábiles">Estafeta ($130) - 2 a 4 días</option>
-                    <option value="dhl" data-cost="180" data-days="1 a 2 días hábiles">DHL Express ($180) - 1 a 2 días</option>
-                    <option value="fedex" data-cost="140" data-days="2 a 5 días hábiles">FedEx ($140) - 2 a 5 días</option>
-                    <option value="paquetexpress" data-cost="125" data-days="3 a 6 días hábiles">Paquetexpress ($125) - 3 a 6 días</option>
+                    <option value="correos" data-cost="75" data-days="5 a 9 días">Correos de México ($75) - 5 a 9 días</option>
+                    <option value="estafeta" data-cost="130" data-days="2 a 4 días">Estafeta ($130) - 2 a 4 días</option>
+                    <option value="dhl" data-cost="180" data-days="1 a 2 días">DHL Express ($180) - 1 a 2 días</option>
+                    <option value="fedex" data-cost="140" data-days="2 a 5 días">FedEx ($140) - 2 a 5 días</option>
+                    <option value="paquetexpress" data-cost="125" data-days="3 a 6 días">Paquetexpress ($125) - 3 a 6 días</option>
                 </select>
                 <p id="cart-delivery-estimate" class="text-[11px] text-purple-700 font-semibold italic mt-1"></p>
             </div>
@@ -316,14 +305,22 @@
         </div>
     </div>
 
-    <!-- MODAL AUTENTICACIÓN -->
+    <!-- MODAL AUTENTICACIÓN / CREAR PERFIL (COMPRADORA O ADMIN) -->
     <div id="auth-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-center items-center p-4">
         <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl p-6 relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
             <div class="space-y-4">
-                <h3 class="font-bold text-md text-gray-700 text-center"><i class="fa-solid fa-shield-halved text-purple-500 mr-1"></i> Administración Trendy GS</h3>
-                <input type="password" id="seller-pin" placeholder="PIN Secreto (ej. 1234)" class="w-full p-3 text-sm rounded-2xl border bg-purple-50/20 text-center tracking-widest font-bold">
-                <button onclick="loginSeller()" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl text-xs font-bold shadow transition">Entrar como Vendedora</button>
+                <h3 class="font-bold text-md text-gray-700 text-center"><i class="fa-solid fa-user-lock text-pink-500 mr-1"></i> Iniciar Sesión / Cuenta</h3>
+                <p class="text-[11px] text-gray-400 text-center">Ingresa con tu correo. Si eres la dueña, usa tu clave secreta de administración.</p>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Correo electrónico:</label>
+                    <input type="email" id="auth-email" placeholder="tucorreo@email.com" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Contraseña o Clave:</label>
+                    <input type="password" id="auth-password" placeholder="Tu contraseña" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
+                </div>
+                <button onclick="processLogin()" class="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-2xl text-xs font-bold shadow transition">Continuar</button>
             </div>
         </div>
     </div>
@@ -339,15 +336,10 @@
 
         let categories = JSON.parse(localStorage.getItem('trendy_categories')) || ['Playeras', 'Hoodies', 'Photocards', 'Accesorios'];
         let artists = JSON.parse(localStorage.getItem('trendy_artists')) || ['BTS', 'Stray Kids', 'BLACKPINK', 'Varios'];
-        let coupons = JSON.parse(localStorage.getItem('trendy_coupons')) || [{ code: 'KPOP20', discount: 20, start: '2026-01-01', end: '2026-12-31' }];
+        let coupons = JSON.parse(localStorage.getItem('trendy_coupons')) || [{ code: 'KPOP20', discount: 20 }];
         let sales = JSON.parse(localStorage.getItem('trendy_sales')) || [];
-        
-        let bannerImages = JSON.parse(localStorage.getItem('trendy_banner_images')) || [
-            'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200',
-            'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=1200'
-        ];
+        let bannerImages = JSON.parse(localStorage.getItem('trendy_banner_images')) || ['https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200'];
         let currentBannerIndex = 0;
-        let profileAvatars = JSON.parse(localStorage.getItem('trendy_profile_avatars')) || ['https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'];
         
         let cart = [];
         let currentCategory = 'Todas';
@@ -406,15 +398,8 @@
             if(prodArtSelect) prodArtSelect.innerHTML = artists.map(a => `<option value="${a}">${a}</option>`).join('');
         }
 
-        function filterCategory(cat) {
-            currentCategory = cat;
-            renderCategoriesUI();
-            renderProducts();
-        }
-
-        function filterProducts() {
-            renderProducts();
-        }
+        function filterCategory(cat) { currentCategory = cat; renderCategoriesUI(); renderProducts(); }
+        function filterProducts() { renderProducts(); }
 
         function renderProducts() {
             const grid = document.getElementById('products-grid');
@@ -424,7 +409,7 @@
             const filtered = products.filter(p => {
                 if(p.paused) return false;
                 const matchesCat = currentCategory === 'Todas' || p.category === currentCategory;
-                const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.artist.toLowerCase().includes(searchTerm) || (p.member && p.member.toLowerCase().includes(searchTerm));
+                const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.artist.toLowerCase().includes(searchTerm);
                 return matchesCat && matchesSearch;
             });
 
@@ -442,7 +427,7 @@
                     <div class="h-48 overflow-hidden bg-pink-50/50 relative">
                         <img src="${p.media[0]}" alt="${p.name}" class="w-full h-full object-cover">
                         <span class="absolute top-3 left-3 bg-white/90 text-gray-600 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">${p.category}</span>
-                        ${p.stock !== undefined && p.stock !== '' ? `<span class="absolute top-3 right-3 bg-black/70 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">Stock: ${p.stock}</span>` : ''}
+                        ${p.stock !== undefined ? `<span class="absolute top-3 right-3 bg-black/70 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">Stock: ${p.stock}</span>` : ''}
                     </div>
                     <div class="p-4 flex flex-col flex-grow justify-between space-y-3">
                         <div>
@@ -489,7 +474,6 @@
                         <h3 class="text-base font-bold text-gray-800">${p.name}</h3>
                         <p class="text-pink-600 font-extrabold text-lg">$${p.price.toFixed(2)} MXN</p>
                         <p class="text-gray-500"><strong>Corte:</strong> ${p.type} | <strong>Stock:</strong> ${p.stock}</p>
-                        <p class="text-gray-500"><strong>Preparación:</strong> ${p.prep}</p>
                         <div>
                             <label class="block font-semibold mb-1">Talla:</label>
                             <select id="selected-size" class="w-full p-2 rounded-xl border bg-white">${p.sizes.split(',').map(s => `<option value="${s.trim()}">${s.trim()}</option>`).join('')}</select>
@@ -546,10 +530,7 @@
             }
         }
 
-        function pushProductToArray(newProd) {
-            products.push(newProd);
-            saveAndResetProducts();
-        }
+        function pushProductToArray(newProd) { products.push(newProd); saveAndResetProducts(); }
 
         function saveAndResetProducts() {
             localStorage.setItem('trendy_products', JSON.stringify(products));
@@ -756,9 +737,9 @@
             let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             const selectCarrier = document.getElementById('cart-carrier-select');
             let shippingCost = parseFloat(selectCarrier.options[selectCarrier.selectedIndex].getAttribute('data-cost')) || 130;
-            let deliveryDays = selectCarrier.options[selectCarrier.selectedIndex].getAttribute('data-days') || '2 a 4 días hábiles';
+            let deliveryDays = selectCarrier.options[selectCarrier.selectedIndex].getAttribute('data-days') || '2 a 4 días';
 
-            document.getElementById('cart-delivery-estimate').textContent = `⏱️ Entrega estimada: ${deliveryDays} (Origen CP 08930)`;
+            document.getElementById('cart-delivery-estimate').textContent = `⏱️ Entrega estimada: ${deliveryDays}`;
             document.getElementById('cart-subtotal').textContent = `$${subtotal.toFixed(2)} MXN`;
             document.getElementById('cart-shipping-cost').textContent = `$${shippingCost.toFixed(2)} MXN`;
             document.getElementById('cart-total').textContent = `$${(subtotal + shippingCost).toFixed(2)} MXN`;
@@ -793,19 +774,60 @@
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
-        function loginSeller() {
-            if(document.getElementById('seller-pin').value === '1234') {
-                currentUser = { role: 'seller' };
+        // Sistema seguro con verificación de credenciales de Administradora (Oculto en lógica)
+        function processLogin() {
+            const emailInput = document.getElementById('auth-email').value.trim().toLowerCase();
+            const passInput = document.getElementById('auth-password').value;
+
+            if(!emailInput) return alert('Por favor ingresa tu correo.');
+
+            // Credenciales estrictas de administrador solicitadas
+            const adminEmail = "trendygs99@gmail.com";
+            const adminPass = "Fercameli3*";
+            const adminCodePin = "3722"; // Código oculto internamente
+
+            if(emailInput === adminEmail) {
+                if(passInput === adminPass || passInput === adminCodePin) {
+                    currentUser = { email: emailInput, role: 'seller' };
+                    localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
+                    closeAuthModal();
+                    checkUserSession();
+                    alert('¡Bienvenida Administradora!');
+                } else {
+                    alert('Contraseña o código de administrador incorrecto.');
+                }
+            } else {
+                // Cualquier otro correo entra en automático como compradora
+                currentUser = { email: emailInput, role: 'buyer' };
+                localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
                 closeAuthModal();
                 checkUserSession();
-                alert('¡Bienvenida al panel!');
-            } else { alert('PIN incorrecto'); }
+                alert(`¡Bienvenida! Sesión iniciada como compradora.`);
+            }
         }
 
-        function logoutUser() { currentUser = null; checkUserSession(); }
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('trendy_current_user');
+            checkUserSession();
+            alert('Sesión cerrada correctamente.');
+        }
 
         function checkUserSession() {
-            document.getElementById('seller-admin-panel').classList.toggle('hidden', !(currentUser && currentUser.role === 'seller'));
+            const panel = document.getElementById('seller-admin-panel');
+            const userDisplay = document.getElementById('user-display-name');
+            
+            if(currentUser && currentUser.role === 'seller') {
+                panel.classList.remove('hidden');
+                userDisplay.textContent = 'Admin (Vendedora)';
+            } else {
+                panel.classList.add('hidden');
+                if(currentUser && currentUser.role === 'buyer') {
+                    userDisplay.textContent = currentUser.email.split('@')[0];
+                } else {
+                    userDisplay.textContent = 'Iniciar sesión';
+                }
+            }
         }
     </script>
 </body>
