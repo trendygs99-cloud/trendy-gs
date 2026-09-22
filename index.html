@@ -67,15 +67,9 @@
     <!-- BANNER CARRUSEL SUPERIOR -->
     <div class="max-w-7xl mx-auto px-4 mt-4 w-full">
         <div id="store-banner" class="w-full h-48 sm:h-64 rounded-3xl bg-cover bg-center relative shadow-md flex items-center justify-between px-4 transition-all duration-500">
-            <button onclick="prevBanner()" class="w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition">
-                <i class="fa-solid fa-chevron-left text-xs"></i>
-            </button>
-            <div class="text-center text-white drop-shadow-lg">
+            <div class="text-center text-white drop-shadow-lg mx-auto">
                 <h2 id="banner-title" class="text-2xl sm:text-4xl font-extrabold tracking-wide">Trendy GS - K-Pop Collection</h2>
             </div>
-            <button onclick="nextBanner()" class="w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition">
-                <i class="fa-solid fa-chevron-right text-xs"></i>
-            </button>
         </div>
     </div>
 
@@ -95,7 +89,7 @@
 
         <!-- AVISO DE TIENDA PAUSADA -->
         <div id="vacation-banner" class="hidden bg-amber-100 border border-amber-300 text-amber-800 p-4 rounded-2xl text-center text-xs font-bold">
-            ⚠️ ¡Tienda en pausa temporal! No se pueden realizar nuevos pedidos por el momento.
+            ⚠️ ¡Tienda en pausa temporal por la administración! No se pueden realizar nuevos pedidos por el momento.
         </div>
 
         <!-- PANEL DE VENDEDORA (ADMIN) -->
@@ -114,10 +108,10 @@
                 <button onclick="switchAdminTab('appearance')" id="adm-tab-app" class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-purple-100 rounded-xl text-xs font-bold">Apariencia & Portada</button>
             </div>
 
-            <!-- SECCIÓN 1: PUBLICACIONES -->
+            <!-- SECCIÓN 1: PUBLICACIONES (Estilo Mercado Libre con gestión multimedia y orden) -->
             <div id="admin-section-publications" class="admin-section space-y-6">
                 <div class="bg-pink-50/40 p-4 rounded-2xl border border-pink-200">
-                    <h4 id="form-product-title" class="font-bold text-xs text-gray-700 mb-3"><i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar Nuevo Producto</h4>
+                    <h4 id="form-product-title" class="font-bold text-xs text-gray-700 mb-3"><i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar o Editar Producto</h4>
                     <form id="product-form" onsubmit="handleSaveProduct(event)" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                         <input type="hidden" id="edit-product-id" value="">
                         <input type="text" id="prod-name" placeholder="Nombre (ej. Playera Bang Chan)" required class="p-2.5 rounded-xl border bg-white">
@@ -135,16 +129,16 @@
                         <input type="text" id="prod-colors" placeholder="Colores (ej. Negro, Blanco)" required class="p-2.5 rounded-xl border bg-white">
                         <input type="text" id="prod-prep" placeholder="Días preparación" required class="p-2.5 rounded-xl border bg-white">
 
-                        <!-- SECCIÓN MULTIMEDIA TIPO MERCADO LIBRE -->
+                        <!-- SECCIÓN MULTIMEDIA MUNDO MERCADO LIBRE -->
                         <div class="md:col-span-3 bg-white p-4 rounded-2xl border border-pink-200 space-y-3">
-                            <label class="block font-bold text-gray-700"><i class="fa-solid fa-photo-film text-pink-500 mr-1"></i> Fotos y Videos del Producto (Puedes subir varios):</label>
+                            <label class="block font-bold text-gray-700"><i class="fa-solid fa-photo-film text-pink-500 mr-1"></i> Fotos y Videos del Producto (Sube varios y ordénalos):</label>
                             <input type="file" id="prod-media-input" accept="image/*,video/*" multiple onchange="handleMediaFilesSelected(event)" class="w-full text-xs">
-                            <p class="text-[10px] text-gray-400">Ordena tus archivos usando las flechas para elegir cuál será la portada principal.</p>
+                            <p class="text-[10px] text-gray-400">La primera foto de la lista será la portada principal que verán las compradoras en el catálogo.</p>
                             <div id="media-preview-container" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-2"></div>
                         </div>
 
                         <div class="md:col-span-3 flex gap-2">
-                            <button type="submit" id="product-submit-btn" class="flex-grow py-2.5 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-bold transition shadow">Publicar Producto</button>
+                            <button type="submit" id="product-submit-btn" class="flex-grow py-2.5 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-bold transition shadow">Guardar Producto</button>
                             <button type="button" id="product-cancel-edit" onclick="resetProductForm()" class="hidden px-4 py-2.5 bg-gray-400 text-white rounded-xl font-bold">Cancelar</button>
                         </div>
                     </form>
@@ -152,7 +146,7 @@
 
                 <div class="bg-purple-50/40 p-4 rounded-2xl border border-purple-200">
                     <div class="flex justify-between items-center mb-3">
-                        <h4 class="font-bold text-xs text-gray-700"><i class="fa-solid fa-boxes-stacked text-purple-500 mr-1"></i> Gestión de Publicaciones</h4>
+                        <h4 class="font-bold text-xs text-gray-700"><i class="fa-solid fa-boxes-stacked text-purple-500 mr-1"></i> Control General de Tienda y Publicaciones</h4>
                         <button onclick="toggleGlobalVacation()" id="vacation-toggle-btn" class="px-3 py-1.5 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600 transition">Pausar Tienda</button>
                     </div>
                     <div id="admin-products-list" class="space-y-2 max-h-72 overflow-y-auto"></div>
@@ -176,10 +170,10 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: VENTAS Y PERFILES -->
+            <!-- SECCIÓN 3: VENTAS Y PERFILES ACTIVOS -->
             <div id="admin-section-sales" class="admin-section hidden space-y-4 text-xs">
                 <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
-                    <h4 class="font-bold text-purple-700 mb-1"><i class="fa-solid fa-users mr-1"></i> Perfiles de Compradoras Registrados</h4>
+                    <h4 class="font-bold text-purple-700 mb-1"><i class="fa-solid fa-users mr-1"></i> Perfiles de Compradoras Registrados en Tiempo Real</h4>
                     <p class="text-gray-600 text-sm font-bold" id="admin-total-profiles">0 compradoras</p>
                     <div id="admin-profiles-list" class="mt-2 space-y-1.5 max-h-40 overflow-y-auto"></div>
                 </div>
@@ -216,7 +210,7 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 5: APARIENCIA -->
+            <!-- SECCIÓN 5: APARIENCIA (Guardado automático instantáneo) -->
             <div id="admin-section-appearance" class="admin-section hidden space-y-4 text-xs">
                 <div class="bg-blue-50/40 p-4 rounded-2xl border border-blue-200 space-y-4">
                     <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-palette text-blue-500 mr-1"></i> Apariencia y Multimedia (Guardado Automático)</h4>
@@ -321,7 +315,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT COMPLETO -->
+    <!-- SCRIPT DE CONTROL Y PERSISTENCIA -->
     <script>
         let products = JSON.parse(localStorage.getItem('trendy_products')) || [
             { id: 1, name: 'Playera Oversize Bang Chan', price: 380, category: 'Playeras', artist: 'Stray Kids', member: 'Bang Chan', stock: 12, type: 'Oversize', sizes: 'Ch, M, G', colors: 'Negro, Blanco', prep: '3 días', media: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'], paused: false }
@@ -406,7 +400,8 @@
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
 
             const filtered = products.filter(p => {
-                if(globalVacation || p.paused || p.stock <= 0) return false;
+                // Si la tienda está en pausa global o el producto está pausado manualmente o sin stock, no se muestra a compradores
+                if(globalVacation || p.paused || parseInt(p.stock) <= 0) return false;
                 const matchesCat = currentCategory === 'Todas' || p.category === currentCategory;
                 const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.artist.toLowerCase().includes(searchTerm);
                 return matchesCat && matchesSearch;
@@ -438,7 +433,7 @@
                             <h3 class="font-bold text-gray-800 text-xs">${p.name}</h3>
                         </div>
                         <div class="flex items-center justify-between pt-2 border-t border-gray-100">
-                            <span class="text-pink-600 font-extrabold text-xs">$${p.price.toFixed(2)} MXN</span>
+                            <span class="text-pink-600 font-extrabold text-xs">$${Number(p.price).toFixed(2)} MXN</span>
                             <span class="px-3 py-1 bg-pink-50 text-pink-600 rounded-full font-bold text-[11px]">Ver más</span>
                         </div>
                     </div>
@@ -447,9 +442,7 @@
             });
         }
 
-        function nextBanner() {}
-        function prevBanner() {}
-
+        // Multimedia con ordenamiento estilo Mercado Libre
         function handleMediaFilesSelected(event) {
             const files = event.target.files;
             if(!files || files.length === 0) return;
@@ -481,7 +474,7 @@
                 container.innerHTML += `
                     <div class="relative bg-gray-50 p-1.5 rounded-2xl border flex flex-col items-center gap-1">
                         ${thumb}
-                        <span class="text-[9px] font-bold text-gray-500">${index === 0 ? '⭐ Portada' : `#${index+1}`}</span>
+                        <span class="text-[9px] font-bold text-gray-500">${index === 0 ? '⭐ Portada Principal' : `#${index+1}`}</span>
                         <div class="flex gap-1 w-full justify-center">
                             ${index > 0 ? `<button type="button" onclick="moveMedia(${index}, -1)" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-1.5 py-0.5 rounded text-[10px]"><i class="fa-solid fa-arrow-left"></i></button>` : ''}
                             ${index < currentFormMedia.length - 1 ? `<button type="button" onclick="moveMedia(${index}, 1)" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-1.5 py-0.5 rounded text-[10px]"><i class="fa-solid fa-arrow-right"></i></button>` : ''}
@@ -527,7 +520,7 @@
                     <div class="w-full md:w-1/2 space-y-3">
                         <span class="bg-pink-100 text-pink-700 px-2.5 py-1 rounded-full font-bold">${p.category}</span>
                         <h3 class="text-base font-bold text-gray-800">${p.name}</h3>
-                        <p class="text-pink-600 font-extrabold text-lg">$${p.price.toFixed(2)} MXN</p>
+                        <p class="text-pink-600 font-extrabold text-lg">$${Number(p.price).toFixed(2)} MXN</p>
                         <p class="text-gray-500"><strong>Corte:</strong> ${p.type} | <strong>Stock disponible:</strong> ${p.stock}</p>
                         <div>
                             <label class="block font-semibold mb-1">Talla:</label>
@@ -622,8 +615,8 @@
             document.getElementById('edit-product-id').value = '';
             currentFormMedia = [];
             renderFormMediaPreview();
-            document.getElementById('form-product-title').innerHTML = `<i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar Nuevo Producto`;
-            document.getElementById('product-submit-btn').textContent = 'Publicar Producto';
+            document.getElementById('form-product-title').innerHTML = `<i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar o Editar Producto`;
+            document.getElementById('product-submit-btn').textContent = 'Guardar Producto';
             document.getElementById('product-cancel-edit').classList.add('hidden');
         }
 
@@ -714,6 +707,7 @@
             document.getElementById('admin-artists-list').innerHTML = artists.map(a => `<div class="bg-white p-1 rounded border">${a}</div>`).join('');
         }
 
+        // Guardado automático de Portada y Avatar
         function uploadBannerImage(event) {
             const file = event.target.files[0];
             if(file) {
@@ -828,6 +822,7 @@
             document.getElementById('admin-sales-container').innerHTML = sales.length === 0 ? '<p class="italic text-gray-400">No hay ventas registradas todavía.</p>' : sales.map(s => `<div class="bg-white p-2 rounded border">Venta ID: ${s.id} - Total: ${s.total}</div>`).join('');
         }
 
+        // Perfiles activos que se van registrando en tiempo real
         function renderAdminProfilesList() {
             let registeredUsers = JSON.parse(localStorage.getItem('trendy_users_db')) || [];
             const counterEl = document.getElementById('admin-total-profiles');
@@ -913,7 +908,6 @@
                 if(existingUser) {
                     alert('Este correo ya tiene un perfil registrado.');
                 } else {
-                    // Guardado automático inmediato en la base de datos de perfiles
                     registeredUsers.push({ email: emailInput, password: passInput, date: new Date().toLocaleDateString() });
                     localStorage.setItem('trendy_users_db', JSON.stringify(registeredUsers));
                     
@@ -922,7 +916,7 @@
                     
                     closeAuthModal();
                     checkUserSession();
-                    renderAdminProfilesList(); // Actualiza la lista en tiempo real en el panel
+                    renderAdminProfilesList(); 
                     alert('¡Perfil creado y guardado automáticamente con éxito!');
                 }
             }
