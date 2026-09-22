@@ -31,21 +31,16 @@
     <!-- HEADER / NAVEGACIÓN SUPERIOR -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-            
-            <!-- LOGO / AVATAR -->
             <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
                 <div class="w-10 h-10 rounded-full overflow-hidden bg-pink-100 flex items-center justify-center border border-pink-300">
                     <img id="header-avatar" src="" alt="TGS" class="w-full h-full object-cover">
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold text-pink-600 leading-tight flex items-center gap-1.5">
-                        Trendy GS
-                    </h1>
+                    <h1 class="text-xl font-bold text-pink-600 leading-tight">Trendy GS</h1>
                     <p class="text-[10px] text-gray-400">Tu tienda fangirl favorita ✨</p>
                 </div>
             </div>
 
-            <!-- BOTONES SUPERIORES DERECHA -->
             <div class="flex items-center gap-2">
                 <button onclick="openCartModal()" class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-600 font-bold text-xs transition shadow-sm">
                     <i class="fa-solid fa-shopping-cart"></i> Carrito <span id="cart-badge" class="bg-pink-600 text-white text-[10px] px-1.5 py-0.2 rounded-full">0</span>
@@ -96,7 +91,12 @@
         <div id="seller-admin-panel" class="hidden bg-white p-6 rounded-3xl shadow-lg border-2 border-purple-200 space-y-6">
             <div class="flex justify-between items-center border-b pb-3">
                 <h3 class="text-base font-bold text-purple-700"><i class="fa-solid fa-crown mr-2"></i> Panel de Control - Trendy GS (Administradora)</h3>
-                <button onclick="logoutUser()" class="text-xs text-red-500 hover:underline font-semibold">Cerrar sesión</button>
+                <div class="flex items-center gap-2">
+                    <button onclick="exportStoreData()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow transition flex items-center gap-1">
+                        <i class="fa-solid fa-download"></i> Guardar y Exportar Datos
+                    </button>
+                    <button onclick="logoutUser()" class="text-xs text-red-500 hover:underline font-semibold ml-2">Cerrar sesión</button>
+                </div>
             </div>
 
             <!-- Pestañas Admin -->
@@ -129,7 +129,7 @@
                         <input type="text" id="prod-colors" placeholder="Colores (ej. Negro, Blanco)" required class="p-2.5 rounded-xl border bg-white">
                         <input type="text" id="prod-prep" placeholder="Días preparación" required class="p-2.5 rounded-xl border bg-white">
 
-                        <!-- SECCIÓN MULTIMEDIA MUNDO MERCADO LIBRE -->
+                        <!-- SECCIÓN MULTIMEDIA MERCADO LIBRE -->
                         <div class="md:col-span-3 bg-white p-4 rounded-2xl border border-pink-200 space-y-3">
                             <label class="block font-bold text-gray-700"><i class="fa-solid fa-photo-film text-pink-500 mr-1"></i> Fotos y Videos del Producto (Sube varios y ordénalos):</label>
                             <input type="file" id="prod-media-input" accept="image/*,video/*" multiple onchange="handleMediaFilesSelected(event)" class="w-full text-xs">
@@ -138,7 +138,7 @@
                         </div>
 
                         <div class="md:col-span-3 flex gap-2">
-                            <button type="submit" id="product-submit-btn" class="flex-grow py-2.5 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-bold transition shadow">Guardar Producto</button>
+                            <button type="submit" id="product-submit-btn" class="flex-grow py-2.5 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-bold transition shadow">Guardar Publicación</button>
                             <button type="button" id="product-cancel-edit" onclick="resetProductForm()" class="hidden px-4 py-2.5 bg-gray-400 text-white rounded-xl font-bold">Cancelar</button>
                         </div>
                     </form>
@@ -173,7 +173,7 @@
             <!-- SECCIÓN 3: VENTAS Y PERFILES ACTIVOS -->
             <div id="admin-section-sales" class="admin-section hidden space-y-4 text-xs">
                 <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
-                    <h4 class="font-bold text-purple-700 mb-1"><i class="fa-solid fa-users mr-1"></i> Perfiles de Compradoras Registrados en Tiempo Real</h4>
+                    <h4 class="font-bold text-purple-700 mb-1"><i class="fa-solid fa-users mr-1"></i> Perfiles de Compradoras Registrados</h4>
                     <p class="text-gray-600 text-sm font-bold" id="admin-total-profiles">0 compradoras</p>
                     <div id="admin-profiles-list" class="mt-2 space-y-1.5 max-h-40 overflow-y-auto"></div>
                 </div>
@@ -210,10 +210,10 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 5: APARIENCIA (Guardado automático instantáneo) -->
+            <!-- SECCIÓN 5: APARIENCIA -->
             <div id="admin-section-appearance" class="admin-section hidden space-y-4 text-xs">
                 <div class="bg-blue-50/40 p-4 rounded-2xl border border-blue-200 space-y-4">
-                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-palette text-blue-500 mr-1"></i> Apariencia y Multimedia (Guardado Automático)</h4>
+                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-palette text-blue-500 mr-1"></i> Apariencia y Multimedia</h4>
                     <div>
                         <label class="font-semibold block mb-1">Foto Principal de Portada (Banner):</label>
                         <input type="file" id="banner-carousel-files" accept="image/*" onchange="uploadBannerImage(event)" class="w-full text-xs">
@@ -234,15 +234,9 @@
     <!-- FOOTER -->
     <footer class="bg-white border-t py-6 text-center text-xs text-gray-500 space-y-3">
         <div class="flex justify-center items-center gap-4 text-base">
-            <a href="https://www.instagram.com/trendy_.gs/?hl=es-la" target="_blank" class="w-8 h-8 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-600 flex items-center justify-center transition shadow-sm" title="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://www.tiktok.com/@trendy_.gs" target="_blank" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 flex items-center justify-center transition shadow-sm" title="TikTok">
-                <i class="fa-brands fa-tiktok"></i>
-            </a>
-            <a href="https://wa.me/message/AQ3RKX3WMFWYK1" target="_blank" class="w-8 h-8 rounded-full bg-green-50 hover:bg-green-100 text-green-600 flex items-center justify-center transition shadow-sm" title="WhatsApp">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
+            <a href="https://www.instagram.com/trendy_.gs/?hl=es-la" target="_blank" class="w-8 h-8 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-600 flex items-center justify-center transition shadow-sm"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@trendy_.gs" target="_blank" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 flex items-center justify-center transition shadow-sm"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://wa.me/message/AQ3RKX3WMFWYK1" target="_blank" class="w-8 h-8 rounded-full bg-green-50 hover:bg-green-100 text-green-600 flex items-center justify-center transition shadow-sm"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
         <p>© 2026 <strong>Trendy GS</strong>. Tienda fangirl hecha con amor 💕</p>
     </footer>
@@ -298,9 +292,7 @@
             <div class="space-y-4">
                 <h3 id="auth-modal-title" class="font-bold text-md text-gray-700 text-center"><i class="fa-solid fa-user-circle text-pink-500 mr-1"></i> Iniciar Sesión</h3>
                 <p id="auth-modal-subtitle" class="text-[11px] text-gray-400 text-center">Ingresa tu correo y contraseña para acceder.</p>
-                
                 <input type="hidden" id="auth-mode-type" value="login">
-                
                 <div>
                     <label class="block text-xs font-semibold mb-1">Correo electrónico:</label>
                     <input type="email" id="auth-email" placeholder="tucorreo@email.com" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
@@ -309,7 +301,6 @@
                     <label class="block text-xs font-semibold mb-1">Contraseña:</label>
                     <input type="password" id="auth-password" placeholder="Tu contraseña" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
                 </div>
-                
                 <button onclick="processAuth()" id="auth-submit-btn" class="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-2xl text-xs font-bold shadow transition">Entrar a mi cuenta</button>
             </div>
         </div>
@@ -352,6 +343,30 @@
             checkUserSession();
             updateGlobalVacationUI();
         });
+
+        // FUNCIÓN DE GUARDADO Y EXPORTACIÓN DE DATOS
+        function exportStoreData() {
+            const storeData = {
+                products,
+                categories,
+                artists,
+                coupons,
+                sales,
+                savedBanner,
+                savedAvatar,
+                mercadoPagoLink,
+                users: JSON.parse(localStorage.getItem('trendy_users_db')) || []
+            };
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storeData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "trendy_store_backup.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            alert("¡Respaldo de tu tienda descargado con éxito! Guárdalo en tu computadora.");
+        }
 
         function goHome() {
             currentCategory = 'Todas';
@@ -400,7 +415,6 @@
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
 
             const filtered = products.filter(p => {
-                // Si la tienda está en pausa global o el producto está pausado manualmente o sin stock, no se muestra a compradores
                 if(globalVacation || p.paused || parseInt(p.stock) <= 0) return false;
                 const matchesCat = currentCategory === 'Todas' || p.category === currentCategory;
                 const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.artist.toLowerCase().includes(searchTerm);
@@ -442,7 +456,7 @@
             });
         }
 
-        // Multimedia con ordenamiento estilo Mercado Libre
+        // Multimedia ordenable estilo Mercado Libre
         function handleMediaFilesSelected(event) {
             const files = event.target.files;
             if(!files || files.length === 0) return;
@@ -581,7 +595,7 @@
             resetProductForm();
             renderProducts();
             renderAdminProductsList();
-            alert('¡Publicación guardada y actualizada con éxito!');
+            alert('¡Publicación guardada con éxito en tu panel!');
         }
 
         function editProduct(id) {
@@ -616,7 +630,7 @@
             currentFormMedia = [];
             renderFormMediaPreview();
             document.getElementById('form-product-title').innerHTML = `<i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar o Editar Producto`;
-            document.getElementById('product-submit-btn').textContent = 'Guardar Producto';
+            document.getElementById('product-submit-btn').textContent = 'Guardar Publicación';
             document.getElementById('product-cancel-edit').classList.add('hidden');
         }
 
@@ -707,7 +721,6 @@
             document.getElementById('admin-artists-list').innerHTML = artists.map(a => `<div class="bg-white p-1 rounded border">${a}</div>`).join('');
         }
 
-        // Guardado automático de Portada y Avatar
         function uploadBannerImage(event) {
             const file = event.target.files[0];
             if(file) {
@@ -716,7 +729,7 @@
                     savedBanner = e.target.result;
                     localStorage.setItem('trendy_banner_image', savedBanner);
                     document.getElementById('store-banner').style.backgroundImage = `url('${savedBanner}')`;
-                    alert('¡Portada guardada y actualizada automáticamente!');
+                    alert('¡Portada actualizada!');
                 };
                 reader.readAsDataURL(file);
             }
@@ -730,7 +743,7 @@
                     savedAvatar = e.target.result;
                     localStorage.setItem('trendy_avatar_image', savedAvatar);
                     document.getElementById('header-avatar').src = savedAvatar;
-                    alert('¡Foto de perfil guardada y actualizada automáticamente!');
+                    alert('¡Foto de perfil actualizada!');
                 };
                 reader.readAsDataURL(file);
             }
@@ -822,12 +835,10 @@
             document.getElementById('admin-sales-container').innerHTML = sales.length === 0 ? '<p class="italic text-gray-400">No hay ventas registradas todavía.</p>' : sales.map(s => `<div class="bg-white p-2 rounded border">Venta ID: ${s.id} - Total: ${s.total}</div>`).join('');
         }
 
-        // Perfiles activos que se van registrando en tiempo real
         function renderAdminProfilesList() {
             let registeredUsers = JSON.parse(localStorage.getItem('trendy_users_db')) || [];
             const counterEl = document.getElementById('admin-total-profiles');
             const listEl = document.getElementById('admin-profiles-list');
-            
             if(counterEl) counterEl.textContent = `${registeredUsers.length} compradoras registradas`;
             if(listEl) {
                 listEl.innerHTML = registeredUsers.length === 0 ? '<span class="text-gray-400 italic">No hay perfiles registrados aún.</span>' : 
@@ -840,9 +851,7 @@
             const titleEl = document.getElementById('auth-modal-title');
             const subtitleEl = document.getElementById('auth-modal-subtitle');
             const btnEl = document.getElementById('auth-submit-btn');
-            const modeInput = document.getElementById('auth-mode-type');
-
-            modeInput.value = mode;
+            document.getElementById('auth-mode-type').value = mode;
 
             if(mode === 'login') {
                 titleEl.innerHTML = `<i class="fa-solid fa-right-to-bracket text-pink-500 mr-1"></i> Iniciar Sesión`;
@@ -853,15 +862,12 @@
                 subtitleEl.textContent = 'Crea tu cuenta de compradora con correo y contraseña.';
                 btnEl.textContent = 'Registrar y Crear Perfil';
             }
-
             document.getElementById('auth-email').value = '';
             document.getElementById('auth-password').value = '';
             modal.classList.remove('hidden');
         }
 
-        function closeAuthModal() { 
-            document.getElementById('auth-modal').classList.add('hidden'); 
-        }
+        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
         function processAuth() {
             const emailInput = document.getElementById('auth-email').value.trim().toLowerCase();
@@ -891,18 +897,14 @@
             let existingUser = registeredUsers.find(u => u.email === emailInput);
 
             if(mode === 'login') {
-                if(existingUser) {
-                    if(existingUser.password === passInput) {
-                        currentUser = { email: emailInput, role: 'buyer' };
-                        localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
-                        closeAuthModal();
-                        checkUserSession();
-                        alert('¡Sesión iniciada con éxito!');
-                    } else {
-                        alert('Contraseña incorrecta.');
-                    }
+                if(existingUser && existingUser.password === passInput) {
+                    currentUser = { email: emailInput, role: 'buyer' };
+                    localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
+                    closeAuthModal();
+                    checkUserSession();
+                    alert('¡Sesión iniciada con éxito!');
                 } else {
-                    alert('Este correo no está registrado.');
+                    alert('Correo o contraseña incorrectos.');
                 }
             } else {
                 if(existingUser) {
@@ -910,14 +912,12 @@
                 } else {
                     registeredUsers.push({ email: emailInput, password: passInput, date: new Date().toLocaleDateString() });
                     localStorage.setItem('trendy_users_db', JSON.stringify(registeredUsers));
-                    
                     currentUser = { email: emailInput, role: 'buyer' };
                     localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
-                    
                     closeAuthModal();
                     checkUserSession();
-                    renderAdminProfilesList(); 
-                    alert('¡Perfil creado y guardado automáticamente con éxito!');
+                    renderAdminProfilesList();
+                    alert('¡Perfil creado con éxito!');
                 }
             }
         }
@@ -948,12 +948,8 @@
             } else {
                 panel.classList.add('hidden');
                 wrapper.innerHTML = `
-                    <button onclick="openAuthModal('login')" class="flex items-center gap-1 px-3.5 py-2 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-600 font-bold text-xs transition border border-pink-200">
-                        <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
-                    </button>
-                    <button onclick="openAuthModal('register')" class="flex items-center gap-1 px-3.5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold text-xs transition shadow-sm">
-                        <i class="fa-solid fa-user-plus"></i> Crear perfil
-                    </button>
+                    <button onclick="openAuthModal('login')" class="flex items-center gap-1 px-3.5 py-2 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-600 font-bold text-xs transition border border-pink-200"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</button>
+                    <button onclick="openAuthModal('register')" class="flex items-center gap-1 px-3.5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold text-xs transition shadow-sm"><i class="fa-solid fa-user-plus"></i> Crear perfil</button>
                 `;
             }
         }
