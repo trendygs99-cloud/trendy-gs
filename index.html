@@ -3,349 +3,814 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trendy GS - K-pop & Fangirl Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Trendy GS - Tienda Fangirl</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelPink: '#ffd1dc',
+                        pastelPurple: '#e2d9f3',
+                        softPinkBg: '#fff0f5'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-pink: #ffb7c5;
-            --pastel-purple: #e2d9fc;
-            --pastel-blue: #d4f0fc;
-            --pastel-yellow: #fff5ba;
-            --dark-text: #4a4a4a;
-            --white: #ffffff;
-            --accent: #ff8fab;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        body {
-            background-color: #fff9fb;
-            color: var(--dark-text);
-            line-height: 1.6;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-pink), var(--pastel-purple));
-            padding: 2rem 1rem;
-            text-align: center;
-            border-bottom: 4px dashed var(--white);
-            position: relative;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            color: var(--white);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        header p {
-            color: var(--white);
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-
-        .admin-btn-trigger {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.8);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 700;
-            color: var(--dark-text);
-            transition: background 0.3s;
-        }
-
-        .admin-btn-trigger:hover {
-            background: var(--white);
-        }
-
-        nav {
-            background-color: var(--white);
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            padding: 1rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--dark-text);
-            font-weight: 700;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .banner {
-            background: var(--pastel-blue);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            border: 2px dashed var(--accent);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-            font-size: 2rem;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .product-card {
-            background: var(--white);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-            border: 2px solid var(--pastel-purple);
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .product-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-        }
-
-        .product-info {
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .product-info h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        .product-info .price {
-            color: var(--accent);
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            background-color: var(--accent);
-            color: var(--white);
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: background 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #ff6b8b;
-        }
-
-        /* Modal Admin */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .modal-content h3 {
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.6rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .btn-secondary {
-            background-color: #ddd;
-            color: var(--dark-text);
-        }
-
-        footer {
-            background-color: var(--pastel-purple);
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            color: var(--dark-text);
-            font-weight: 600;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        body { font-family: 'Quicksand', sans-serif; background-color: #fff0f5; }
     </style>
 </head>
-<body>
+<body id="main-body" class="min-h-screen flex flex-col text-gray-700">
 
-    <header>
-        <button class="admin-btn-trigger" onclick="openLoginModal()">⚙️ Admin</button>
-        <h1>✨ Trendy GS ✨</h1>
-        <p>K-pop & Fangirl Merch | Playeras, Tote Bags, Llaveros y Accesorios</p>
+    <!-- HEADER / NAVEGACIÓN SUPERIOR -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            
+            <!-- LOGO / AVATAR -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+                <div class="w-10 h-10 rounded-full overflow-hidden bg-pink-100 flex items-center justify-center border border-pink-300">
+                    <img id="header-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="TGS" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-pink-600 leading-tight flex items-center gap-1.5">
+                        Trendy GS
+                    </h1>
+                    <p class="text-[10px] text-gray-400">Tu tienda fangirl favorita ✨</p>
+                </div>
+            </div>
+
+            <!-- BOTONES SUPERIORES DERECHA -->
+            <div class="flex items-center gap-2">
+                <button onclick="openCartModal()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-600 font-bold text-xs transition shadow-sm">
+                    <i class="fa-solid fa-shopping-cart"></i> Carrito <span id="cart-badge" class="bg-pink-600 text-white text-[10px] px-1.5 py-0.2 rounded-full">0</span>
+                </button>
+                <div id="auth-container" class="flex items-center gap-2">
+                    <!-- Botón Dinámico de Usuario / Sesión -->
+                    <div id="user-menu-wrapper" class="flex items-center gap-2">
+                        <button onclick="openAuthModal('login')" class="flex items-center gap-1 px-3 py-2 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-600 font-bold text-xs transition border border-pink-200">
+                            <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+                        </button>
+                        <button onclick="openAuthModal('register')" class="flex items-center gap-1 px-3 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold text-xs transition shadow-sm">
+                            <i class="fa-solid fa-user-plus"></i> Crear perfil
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <nav>
-        <a href="#inicio">Inicio</a>
-        <a href="#catalogo">Catálogo</a>
-        <a href="#bazar">Próximo Bazar</a>
-        <a href="#contacto">Contacto</a>
-    </nav>
-
-    <div class="container">
-        <div class="banner" id="inicio">
-            <h2>💖 ¡Bienvenida a Trendy GS! 💖</h2>
-            <p>Encuentra tus artículos favoritos de BTS, Stray Kids (Bang Chan) y toda la merch especial para fangirls. ¡Hecho con amor para ti!</p>
-        </div>
-
-        <section id="catalogo">
-            <h2 class="section-title">Nuestros Productos Destacados</h2>
-            <div class="products-grid" id="dynamic-products-container">
-                <!-- Se cargan dinámicamente o por defecto -->
-                <div class="product-card">
-                    <div class="product-img">[Mockup Playera Negra]</div>
-                    <div class="product-info">
-                        <h3>Playera Estilo K-pop (Negra/Beige/Blanca)</h3>
-                        <p class="price">$250 MXN</p>
-                        <button class="btn" onclick="alert('¡Agregado al carrito con éxito!')">Agregar al carrito</button>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-img">[Mockup Tote Bag]</div>
-                    <div class="product-info">
-                        <h3>Tote Bag Aesthetic Pastel</h3>
-                        <p class="price">$180 MXN</p>
-                        <button class="btn" onclick="alert('¡Agregado al carrito con éxito!')">Agregar al carrito</button>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-img">[Mockup Llavero Bang Chan]</div>
-                    <div class="product-info">
-                        <h3>Llaveros & Dijes (Bang Chan / BTS)</h3>
-                        <p class="price">$90 MXN</p>
-                        <button class="btn" onclick="alert('¡Agregado al carrito con éxito!')">Agregar al carrito</button>
-                    </div>
-                </div>
+    <!-- BANNER CARRUSEL SUPERIOR -->
+    <div class="max-w-7xl mx-auto px-4 mt-4 w-full">
+        <div id="store-banner" class="w-full h-48 sm:h-64 rounded-3xl bg-cover bg-center relative shadow-md flex items-center justify-between px-4 transition-all duration-500" style="background-image: url('https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200');">
+            <button onclick="prevBanner()" class="w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition">
+                <i class="fa-solid fa-chevron-left text-xs"></i>
+            </button>
+            <div class="text-center text-white drop-shadow-lg">
+                <h2 id="banner-title" class="text-2xl sm:text-4xl font-extrabold tracking-wide">Trendy GS - K-Pop Collection</h2>
             </div>
-        </section>
-    </div>
-
-    <!-- Modal de Acceso de Administradora -->
-    <div class="modal" id="auth-modal">
-        <div class="modal-content">
-            <h3>Panel de Administradora</h3>
-            <div class="form-group">
-                <label>Correo electrónico</label>
-                <input type="email" id="auth-email" placeholder="correo@admin.com">
-            </div>
-            <div class="form-group">
-                <label>Contraseña</label>
-                <input type="password" id="auth-password" placeholder="********">
-            </div>
-            <div class="form-group">
-                <label>Código PIN Oculto</label>
-                <input type="password" id="auth-pin" placeholder="PIN de seguridad">
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeLoginModal()">Cancelar</button>
-                <button class="btn" onclick="processLogin()">Entrar</button>
-            </div>
+            <button onclick="nextBanner()" class="w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition">
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
         </div>
     </div>
 
-    <footer id="contacto">
-        <p>✨ Trendy GS - Envíos seguros a toda la República Mexicana y más allá ✨</p>
-        <p>¿Dudas con tu pedido? ¡Escríbenos por Instagram o Mercado Libre!</p>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full space-y-6">
+
+        <!-- BARRA DE BÚSQUEDA Y CATEGORÍAS -->
+        <div class="bg-white p-4 rounded-3xl shadow-sm border border-pink-100 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div class="relative w-full md:w-72">
+                <input type="text" id="search-input" oninput="filterProducts()" placeholder="Buscar producto, integrante, grupo..." class="w-full pl-9 pr-4 py-2 rounded-full border border-pink-200 text-xs focus:outline-none bg-pink-50/20">
+                <i class="fa-solid fa-search absolute left-3.5 top-3 text-pink-400 text-xs"></i>
+            </div>
+            <div id="categories-container" class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+                <button onclick="filterCategory('Todas')" class="category-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-pink-600 text-white shadow">Todas</button>
+            </div>
+        </div>
+
+        <!-- AVISO DE VACACIONES -->
+        <div id="vacation-banner" class="hidden bg-amber-100 border border-amber-300 text-amber-800 p-4 rounded-2xl text-center text-xs font-bold">
+            ⚠️ ¡Tienda en pausa temporal por vacaciones o descanso! No se pueden realizar pedidos por el momento.
+        </div>
+
+        <!-- PANEL DE VENDEDORA (ADMIN) - SOLO VISIBLE PARA TRENDY -->
+        <div id="seller-admin-panel" class="hidden bg-white p-6 rounded-3xl shadow-lg border-2 border-purple-200 space-y-6">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-base font-bold text-purple-700"><i class="fa-solid fa-crown mr-2"></i> Panel de Control - Trendy GS (Administradora)</h3>
+                <button onclick="logoutUser()" class="text-xs text-red-500 hover:underline font-semibold">Cerrar sesión</button>
+            </div>
+
+            <!-- Pestañas Admin -->
+            <div class="flex gap-2 border-b pb-3 overflow-x-auto">
+                <button onclick="switchAdminTab('publications')" id="adm-tab-pub" class="px-4 py-2 bg-purple-600 text-white rounded-xl text-xs font-bold shadow">Publicaciones</button>
+                <button onclick="switchAdminTab('codes')" id="adm-tab-cod" class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-purple-100 rounded-xl text-xs font-bold">Códigos & Pagos</button>
+                <button onclick="switchAdminTab('sales')" id="adm-tab-sal" class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-purple-100 rounded-xl text-xs font-bold">Ventas & Perfiles</button>
+                <button onclick="switchAdminTab('categories')" id="adm-tab-cat" class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-purple-100 rounded-xl text-xs font-bold">Categorías & Grupos</button>
+                <button onclick="switchAdminTab('appearance')" id="adm-tab-app" class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-purple-100 rounded-xl text-xs font-bold">Apariencia & Portada</button>
+            </div>
+
+            <!-- SECCIÓN 1: PUBLICACIONES -->
+            <div id="admin-section-publications" class="admin-section space-y-6">
+                <div class="bg-pink-50/40 p-4 rounded-2xl border border-pink-200">
+                    <h4 id="form-product-title" class="font-bold text-xs text-gray-700 mb-3"><i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar Nuevo Producto</h4>
+                    <form id="product-form" onsubmit="handleSaveProduct(event)" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                        <input type="hidden" id="edit-product-id" value="">
+                        <input type="text" id="prod-name" placeholder="Nombre (ej. Playera Bang Chan)" required class="p-2.5 rounded-xl border bg-white">
+                        <input type="number" id="prod-price" placeholder="Precio ($ MXN)" required class="p-2.5 rounded-xl border bg-white">
+                        <select id="prod-category" class="p-2.5 rounded-xl border bg-white" required></select>
+                        <select id="prod-artist" class="p-2.5 rounded-xl border bg-white" required></select>
+                        <input type="text" id="prod-member" placeholder="Integrante opcional" class="p-2.5 rounded-xl border bg-white">
+                        <input type="number" id="prod-stock" placeholder="Stock / Piezas" class="p-2.5 rounded-xl border bg-white">
+                        <select id="prod-type" class="p-2.5 rounded-xl border bg-white">
+                            <option value="Oversize">Corte Oversize</option>
+                            <option value="Recto">Corte Recto</option>
+                            <option value="Unico">Diseño Único / Accesorio</option>
+                        </select>
+                        <input type="text" id="prod-sizes" placeholder="Tallas (ej. Ch, M, G)" required class="p-2.5 rounded-xl border bg-white">
+                        <input type="text" id="prod-colors" placeholder="Colores (ej. Negro, Blanco)" required class="p-2.5 rounded-xl border bg-white">
+                        <input type="text" id="prod-prep" placeholder="Días preparación" required class="p-2.5 rounded-xl border bg-white">
+
+                        <div class="md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-3 bg-white p-3 rounded-xl border">
+                            <div>
+                                <label class="block font-semibold mb-1">Imagen del Producto:</label>
+                                <input type="file" id="prod-media-files" accept="image/*" class="w-full text-xs">
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-3 flex gap-2">
+                            <button type="submit" id="product-submit-btn" class="flex-grow py-2.5 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-bold transition shadow">Publicar Producto</button>
+                            <button type="button" id="product-cancel-edit" onclick="resetProductForm()" class="hidden px-4 py-2.5 bg-gray-400 text-white rounded-xl font-bold">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-purple-50/40 p-4 rounded-2xl border border-purple-200">
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-bold text-xs text-gray-700"><i class="fa-solid fa-boxes-stacked text-purple-500 mr-1"></i> Gestión de Publicaciones</h4>
+                        <button onclick="toggleGlobalVacation()" id="vacation-toggle-btn" class="px-3 py-1.5 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600">Pausar Tienda</button>
+                    </div>
+                    <div id="admin-products-list" class="space-y-2 max-h-60 overflow-y-auto"></div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: CÓDIGOS & PAGOS -->
+            <div id="admin-section-codes" class="admin-section hidden space-y-4 text-xs">
+                <div class="bg-green-50/40 p-4 rounded-2xl border border-green-200 space-y-3">
+                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-ticket text-green-500 mr-1"></i> Códigos de Promoción</h4>
+                    <div class="flex gap-2">
+                        <input type="text" id="admin-coupon-code" placeholder="Código (ej. KPOP20)" class="p-2 rounded-xl border bg-white uppercase flex-grow">
+                        <input type="number" id="admin-coupon-discount" placeholder="Descuento ($)" class="p-2 rounded-xl border bg-white w-24">
+                    </div>
+                    <button onclick="saveAdminCoupon()" class="bg-green-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-green-700">Guardar</button>
+                    <div id="admin-coupons-list" class="space-y-1 max-h-40 overflow-y-auto"></div>
+                </div>
+                <div class="bg-blue-50/40 p-4 rounded-2xl border border-blue-200 space-y-2">
+                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-credit-card text-blue-500 mr-1"></i> Link de Pago (Mercado Pago)</h4>
+                    <input type="text" id="mercadopago-link" placeholder="https://mpago.la/tu-link" onchange="saveMercadoPagoLink(this.value)" class="w-full p-2.5 rounded-xl border bg-white">
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: VENTAS Y PERFILES DE COMPRADORAS -->
+            <div id="admin-section-sales" class="admin-section hidden space-y-4 text-xs">
+                <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
+                    <h4 class="font-bold text-purple-700 mb-1"><i class="fa-solid fa-users mr-1"></i> Perfiles de Compradoras Registrados</h4>
+                    <p class="text-gray-600 text-sm font-bold" id="admin-total-profiles">0 compradoras</p>
+                    <div id="admin-profiles-list" class="mt-2 space-y-1 max-h-32 overflow-y-auto"></div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200">
+                    <h4 class="font-bold text-sm text-gray-700 mb-2"><i class="fa-solid fa-chart-line text-green-600 mr-1"></i> Ventas Registradas</h4>
+                    <div id="admin-sales-container" class="space-y-2 max-h-60 overflow-y-auto text-gray-600">
+                        <p class="italic text-gray-400">No hay ventas registradas todavía.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 4: CATEGORÍAS & GRUPOS -->
+            <div id="admin-section-categories" class="admin-section hidden space-y-4 text-xs">
+                <div class="bg-pink-50/40 p-4 rounded-2xl border border-pink-200 space-y-3">
+                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-tags text-pink-500 mr-1"></i> Categorías y Grupos</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="font-semibold block mb-1">Nueva Categoría:</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="new-category-input" placeholder="Ej. Photocards" class="p-2.5 rounded-xl border bg-white flex-grow">
+                                <button onclick="addNewCategory()" class="bg-pink-500 text-white px-4 py-2 rounded-xl font-bold">Agregar</button>
+                            </div>
+                            <div id="admin-categories-list" class="mt-2 space-y-1"></div>
+                        </div>
+                        <div>
+                            <label class="font-semibold block mb-1">Nuevo Grupo / Artista:</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="new-artist-input" placeholder="Ej. BLACKPINK" class="p-2.5 rounded-xl border bg-white flex-grow">
+                                <button onclick="addNewArtist()" class="bg-purple-600 text-white px-4 py-2 rounded-xl font-bold">Agregar</button>
+                            </div>
+                            <div id="admin-artists-list" class="mt-2 space-y-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 5: APARIENCIA & PORTADA -->
+            <div id="admin-section-appearance" class="admin-section hidden space-y-4 text-xs">
+                <div class="bg-blue-50/40 p-4 rounded-2xl border border-blue-200 space-y-4">
+                    <h4 class="font-bold text-sm text-gray-700"><i class="fa-solid fa-palette text-blue-500 mr-1"></i> Apariencia y Multimedia</h4>
+                    <div>
+                        <label class="font-semibold block mb-1">Foto Principal de Portada (Banner):</label>
+                        <input type="file" id="banner-carousel-files" accept="image/*" onchange="uploadBannerImage(event)" class="w-full text-xs">
+                    </div>
+                    <div>
+                        <label class="font-semibold block mb-1">Foto de Perfil / Logo (Avatar):</label>
+                        <input type="file" id="profile-carousel-files" accept="image/*" onchange="uploadProfileImage(event)" class="w-full text-xs">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRID DE PRODUCTOS -->
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t py-6 text-center text-xs text-gray-400 space-y-2">
+        <p>© 2026 <strong>Trendy GS</strong>. Tienda fangirl hecha con amor 💕</p>
     </footer>
 
+    <!-- MODAL DETALLE PRODUCTO -->
+    <div id="product-detail-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            <div id="product-detail-content" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-end">
+        <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6 border-b pb-3">
+                <h3 class="text-lg font-bold text-pink-600"><i class="fa-solid fa-bag-shopping mr-2"></i> Tu Carrito</h3>
+                <button onclick="closeCartModal()" class="text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="cart-items-container" class="flex-grow space-y-4 overflow-y-auto mb-4"></div>
+
+            <div class="border-t pt-3 mb-4 bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-2 text-xs">
+                <h4 class="font-bold text-gray-700">Envío por Código Postal</h4>
+                <div class="flex gap-2">
+                    <input type="text" id="cart-destination-cp" placeholder="Tu CP (ej. 06000)" maxlength="5" class="w-full p-2.5 rounded-xl border bg-white font-medium">
+                    <button onclick="updateCartTotals()" class="bg-purple-600 text-white px-3 py-1 rounded-xl font-bold">Calcular</button>
+                </div>
+                <select id="cart-carrier-select" onchange="updateCartTotals()" class="w-full p-2.5 rounded-xl border bg-white font-medium mt-1">
+                    <option value="estafeta" data-cost="130" data-days="2 a 4 días">Estafeta ($130) - 2 a 4 días</option>
+                    <option value="dhl" data-cost="180" data-days="1 a 2 días">DHL Express ($180) - 1 a 2 días</option>
+                </select>
+            </div>
+
+            <div class="border-t pt-4 space-y-2 text-xs">
+                <div class="flex justify-between"><span class="text-gray-400">Subtotal:</span><span id="cart-subtotal" class="font-semibold">$0.00 MXN</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Envío:</span><span id="cart-shipping-cost" class="font-semibold">$0.00 MXN</span></div>
+                <div class="flex justify-between text-base font-bold text-gray-800 border-t pt-2"><span>Total Final:</span><span id="cart-total" class="text-pink-600">$0.00 MXN</span></div>
+                
+                <button onclick="checkoutMercadoPago()" class="w-full py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-2xl font-bold shadow-md transition mt-3 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-credit-card"></i> Pagar con Mercado Pago
+                </button>
+                <button onclick="checkoutOrderWhatsApp()" class="w-full py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-2xl font-bold shadow transition">
+                    Enviar Pedido por WhatsApp 💖
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL AUTENTICACIÓN (INICIAR SESIÓN / CREAR PERFIL) -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl p-6 relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            <div class="space-y-4">
+                <h3 id="auth-modal-title" class="font-bold text-md text-gray-700 text-center"><i class="fa-solid fa-user-circle text-pink-500 mr-1"></i> Iniciar Sesión</h3>
+                <p id="auth-modal-subtitle" class="text-[11px] text-gray-400 text-center">Ingresa tu correo y contraseña para acceder de forma segura.</p>
+                
+                <input type="hidden" id="auth-mode-type" value="login">
+                
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Correo electrónico:</label>
+                    <input type="email" id="auth-email" placeholder="tucorreo@email.com" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Contraseña:</label>
+                    <input type="password" id="auth-password" placeholder="Tu contraseña obligatoria" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
+                </div>
+                
+                <button onclick="processAuth()" id="auth-submit-btn" class="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-2xl text-xs font-bold shadow transition">Entrar a mi cuenta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE PERSISTENCIA Y SEGURIDAD -->
     <script>
-        // CREDENCIALES DE ADMINISTRADORA (Puedes modificarlas aquí mismo)
-        const adminEmail = "trendygs99@gmail.com";
-        const adminPass = "Fercameli3*";
-        const adminCodePin = "3722";
+        let products = JSON.parse(localStorage.getItem('trendy_products')) || [
+            { id: 1, name: 'Playera Oversize Bang Chan', price: 380, category: 'Playeras', artist: 'Stray Kids', member: 'Bang Chan', stock: 12, type: 'Oversize', sizes: 'Ch, M, G', colors: 'Negro, Blanco', prep: '3 días', media: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'], paused: false }
+        ];
 
-        function openLoginModal() {
-            document.getElementById('auth-modal').style.display = 'flex';
+        let categories = JSON.parse(localStorage.getItem('trendy_categories')) || ['Playeras', 'Hoodies', 'Photocards', 'Accesorios'];
+        let artists = JSON.parse(localStorage.getItem('trendy_artists')) || ['BTS', 'Stray Kids', 'BLACKPINK', 'Varios'];
+        let coupons = JSON.parse(localStorage.getItem('trendy_coupons')) || [];
+        let sales = JSON.parse(localStorage.getItem('trendy_sales')) || [];
+        
+        let savedBanner = localStorage.getItem('trendy_banner_image') || 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200';
+        let savedAvatar = localStorage.getItem('trendy_avatar_image') || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150';
+        
+        let cart = [];
+        let currentCategory = 'Todas';
+        let currentUser = JSON.parse(localStorage.getItem('trendy_current_user')) || null;
+        let globalVacation = JSON.parse(localStorage.getItem('trendy_vacation')) || false;
+        let mercadoPagoLink = localStorage.getItem('trendy_mp_link') || '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('store-banner').style.backgroundImage = `url('${savedBanner}')`;
+            document.getElementById('header-avatar').src = savedAvatar;
+            renderProducts();
+            renderCategoriesUI();
+            renderArtistsUI();
+            renderAdminProductsList();
+            renderAdminCoupons();
+            renderAdminCategoriesAndArtists();
+            renderAdminSales();
+            renderAdminProfilesCount();
+            updateCartBadge();
+            checkUserSession();
+            if(globalVacation) document.getElementById('vacation-banner').classList.remove('hidden');
+        });
+
+        function goHome() {
+            currentCategory = 'Todas';
+            document.getElementById('search-input').value = '';
+            renderCategoriesUI();
+            renderProducts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function closeLoginModal() {
-            document.getElementById('auth-modal').style.display = 'none';
+        function switchAdminTab(secName) {
+            document.querySelectorAll('.admin-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`admin-section-${secName}`).classList.remove('hidden');
+            const tabs = ['publications', 'codes', 'sales', 'categories', 'appearance'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`adm-tab-${t.substring(0,3)}`);
+                if(t === secName) {
+                    btn.className = 'px-4 py-2 bg-purple-600 text-white rounded-xl text-xs font-bold shadow';
+                } else {
+                    btn.className = 'px-4 py-2 bg-gray-100 text-gray-600 hover:bg-purple-100 rounded-xl text-xs font-bold';
+                }
+            });
         }
 
-        function processLogin() {
-            const emailInput = document.getElementById('auth-email').value.trim().toLowerCase();
-            const passInput = document.getElementById('auth-password').value;
-            const pinInput = document.getElementById('auth-pin').value;
+        function renderCategoriesUI() {
+            const container = document.getElementById('categories-container');
+            container.innerHTML = `<button onclick="filterCategory('Todas')" class="category-btn px-4 py-1.5 rounded-full text-xs font-semibold ${currentCategory === 'Todas' ? 'bg-pink-600 text-white shadow' : 'bg-white text-gray-600 border border-pink-200 hover:bg-pink-50'}">Todas</button>`;
+            categories.forEach(cat => {
+                const active = currentCategory === cat;
+                container.innerHTML += `<button onclick="filterCategory('${cat}')" class="category-btn px-4 py-1.5 rounded-full text-xs font-semibold ${active ? 'bg-pink-600 text-white shadow' : 'bg-white text-gray-600 border border-pink-200 hover:bg-pink-50'}">${cat}</button>`;
+            });
+            const prodCatSelect = document.getElementById('prod-category');
+            if(prodCatSelect) prodCatSelect.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
 
-            if (emailInput === adminEmail && passInput === adminPass && pinInput === adminCodePin) {
-                alert('¡Acceso concedido! Bienvenida al panel de Trendy GS.');
-                closeLoginModal();
-                // Aquí puedes abrir las funciones de administración o gestión de productos
+        function renderArtistsUI() {
+            const prodArtSelect = document.getElementById('prod-artist');
+            if(prodArtSelect) prodArtSelect.innerHTML = artists.map(a => `<option value="${a}">${a}</option>`).join('');
+        }
+
+        function filterCategory(cat) { currentCategory = cat; renderCategoriesUI(); renderProducts(); }
+        function filterProducts() { renderProducts(); }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+            const filtered = products.filter(p => {
+                if(p.paused) return false;
+                const matchesCat = currentCategory === 'Todas' || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.artist.toLowerCase().includes(searchTerm);
+                return matchesCat && matchesSearch;
+            });
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-400 text-xs">No hay productos disponibles.</div>`;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-3xl shadow-sm hover:shadow-md transition border border-pink-100 flex flex-col overflow-hidden relative cursor-pointer';
+                card.onclick = () => openProductModal(p.id);
+
+                card.innerHTML = `
+                    <div class="h-48 overflow-hidden bg-pink-50/50 relative">
+                        <img src="${p.media[0]}" alt="${p.name}" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-white/90 text-gray-600 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">${p.category}</span>
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow justify-between space-y-3">
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">${p.artist}</p>
+                            <h3 class="font-bold text-gray-800 text-xs">${p.name}</h3>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+                            <span class="text-pink-600 font-extrabold text-xs">$${p.price.toFixed(2)} MXN</span>
+                            <span class="px-3 py-1 bg-pink-50 text-pink-600 rounded-full font-bold text-[11px]">Ver más</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function nextBanner() { }
+        function prevBanner() { }
+
+        function openProductModal(id) {
+            const p = products.find(prod => prod.id === id);
+            if(!p) return;
+            const modal = document.getElementById('product-detail-modal');
+            const content = document.getElementById('product-detail-content');
+
+            content.innerHTML = `
+                <div class="flex gap-4 flex-col md:flex-row text-xs">
+                    <div class="w-full md:w-1/2"><img src="${p.media[0]}" class="w-full h-64 object-cover rounded-2xl border"></div>
+                    <div class="w-full md:w-1/2 space-y-3">
+                        <span class="bg-pink-100 text-pink-700 px-2.5 py-1 rounded-full font-bold">${p.category}</span>
+                        <h3 class="text-base font-bold text-gray-800">${p.name}</h3>
+                        <p class="text-pink-600 font-extrabold text-lg">$${p.price.toFixed(2)} MXN</p>
+                        <p class="text-gray-500"><strong>Corte:</strong> ${p.type} | <strong>Stock:</strong> ${p.stock}</p>
+                        <div>
+                            <label class="block font-semibold mb-1">Talla:</label>
+                            <select id="selected-size" class="w-full p-2 rounded-xl border bg-white">${p.sizes.split(',').map(s => `<option value="${s.trim()}">${s.trim()}</option>`).join('')}</select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1">Color:</label>
+                            <select id="selected-color" class="w-full p-2 rounded-xl border bg-white">${p.colors.split(',').map(c => `<option value="${c.trim()}">${c.trim()}</option>`).join('')}</select>
+                        </div>
+                        <button onclick="addCurrentProductToCart(${p.id})" class="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-bold transition shadow">
+                            Añadir al Carrito 🛍️
+                        </button>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function closeProductModal() { document.getElementById('product-detail-modal').classList.add('hidden'); }
+
+        function handleSaveProduct(event) {
+            event.preventDefault();
+            const editId = document.getElementById('edit-product-id').value;
+            const name = document.getElementById('prod-name').value;
+            const price = parseFloat(document.getElementById('prod-price').value);
+            const category = document.getElementById('prod-category').value;
+            const artist = document.getElementById('prod-artist').value;
+            const member = document.getElementById('prod-member').value.trim();
+            const stock = parseInt(document.getElementById('prod-stock').value) || 10;
+            const type = document.getElementById('prod-type').value;
+            const sizes = document.getElementById('prod-sizes').value;
+            const colors = document.getElementById('prod-colors').value;
+            const prep = document.getElementById('prod-prep').value;
+            const mediaFile = document.getElementById('prod-media-files').files[0];
+
+            if(mediaFile) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    saveProductComplete(editId, { name, price, category, artist, member, stock, type, sizes, colors, prep, media: [e.target.result], paused: false });
+                };
+                reader.readAsDataURL(mediaFile);
             } else {
-                alert('Credenciales incorrectas. Verifica tus datos de acceso.');
+                let existingMedia = editId ? products.find(p => p.id == editId).media : ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'];
+                saveProductComplete(editId, { name, price, category, artist, member, stock, type, sizes, colors, prep, media: existingMedia, paused: false });
+            }
+        }
+
+        function saveProductComplete(editId, prodData) {
+            if(editId) {
+                const p = products.find(prod => prod.id == editId);
+                if(p) { Object.assign(p, prodData); }
+            } else {
+                prodData.id = Date.now();
+                products.push(prodData);
+            }
+            localStorage.setItem('trendy_products', JSON.stringify(products));
+            resetProductForm();
+            renderProducts();
+            renderAdminProductsList();
+            alert('¡Guardado con éxito y respaldado de forma permanente!');
+        }
+
+        function resetProductForm() {
+            document.getElementById('product-form').reset();
+            document.getElementById('edit-product-id').value = '';
+            document.getElementById('product-submit-btn').textContent = 'Publicar Producto';
+            document.getElementById('product-cancel-edit').classList.add('hidden');
+        }
+
+        function renderAdminProductsList() {
+            const container = document.getElementById('admin-products-list');
+            container.innerHTML = products.map(p => `
+                <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border text-xs">
+                    <strong>${p.name}</strong> - $${p.price}
+                    <div class="flex gap-2">
+                        <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1 rounded-lg bg-red-100 text-red-600"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleGlobalVacation() {
+            globalVacation = !globalVacation;
+            localStorage.setItem('trendy_vacation', JSON.stringify(globalVacation));
+            document.getElementById('vacation-banner').classList.toggle('hidden', !globalVacation);
+        }
+
+        function deleteProduct(id) {
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('trendy_products', JSON.stringify(products));
+            renderProducts();
+            renderAdminProductsList();
+        }
+
+        function addNewCategory() {
+            const val = document.getElementById('new-category-input').value.trim();
+            if(val && !categories.includes(val)) {
+                categories.push(val);
+                localStorage.setItem('trendy_categories', JSON.stringify(categories));
+                document.getElementById('new-category-input').value = '';
+                renderCategoriesUI();
+            }
+        }
+
+        function addNewArtist() {
+            const val = document.getElementById('new-artist-input').value.trim();
+            if(val && !artists.includes(val)) {
+                artists.push(val);
+                localStorage.setItem('trendy_artists', JSON.stringify(artists));
+                document.getElementById('new-artist-input').value = '';
+                renderArtistsUI();
+            }
+        }
+
+        function renderAdminCategoriesAndArtists() {
+            document.getElementById('admin-categories-list').innerHTML = categories.map(c => `<div class="bg-white p-1 rounded border">${c}</div>`).join('');
+            document.getElementById('admin-artists-list').innerHTML = artists.map(a => `<div class="bg-white p-1 rounded border">${a}</div>`).join('');
+        }
+
+        function uploadBannerImage(event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    savedBanner = e.target.result;
+                    localStorage.setItem('trendy_banner_image', savedBanner);
+                    document.getElementById('store-banner').style.backgroundImage = `url('${savedBanner}')`;
+                    alert('¡Portada actualizada y respaldada permanentemente!');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function uploadProfileImage(event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    savedAvatar = e.target.result;
+                    localStorage.setItem('trendy_avatar_image', savedAvatar);
+                    document.getElementById('header-avatar').src = savedAvatar;
+                    alert('¡Foto de perfil actualizada y respaldada permanentemente!');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveAdminCoupon() {
+            const code = document.getElementById('admin-coupon-code').value.trim().toUpperCase();
+            const discount = parseFloat(document.getElementById('admin-coupon-discount').value);
+            if(!code || isNaN(discount)) return;
+            coupons.push({ code, discount });
+            localStorage.setItem('trendy_coupons', JSON.stringify(coupons));
+            renderAdminCoupons();
+        }
+
+        function renderAdminCoupons() {
+            document.getElementById('admin-coupons-list').innerHTML = coupons.map(c => `<div class="bg-white p-1 rounded border"><strong>${c.code}</strong> (-$${c.discount})</div>`).join('');
+        }
+
+        function saveMercadoPagoLink(link) {
+            mercadoPagoLink = link;
+            localStorage.setItem('trendy_mp_link', link);
+        }
+
+        function addCurrentProductToCart(id) {
+            if(globalVacation) return alert('Tienda en pausa.');
+            const p = products.find(prod => prod.id === id);
+            const size = document.getElementById('selected-size').value;
+            const color = document.getElementById('selected-color').value;
+            const cartKey = `${id}-${size}-${color}`;
+            const existing = cart.find(item => item.cartKey === cartKey);
+
+            if(existing) existing.qty += 1;
+            else cart.push({ ...p, size, color, qty: 1, cartKey });
+
+            closeProductModal();
+            updateCartBadge();
+            openCartModal();
+        }
+
+        function updateCartBadge() {
+            document.getElementById('cart-badge').textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+        }
+
+        function openCartModal() { document.getElementById('cart-modal').classList.remove('hidden'); renderCartItems(); }
+        function closeCartModal() { document.getElementById('cart-modal').classList.add('hidden'); }
+
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = cart.length === 0 ? `<p class="text-xs text-gray-400 text-center py-6">Tu carrito está vacío.</p>` : '';
+            cart.forEach((item, index) => {
+                container.innerHTML += `
+                    <div class="flex items-center justify-between gap-3 bg-pink-50/40 p-3 rounded-2xl border text-xs">
+                        <img src="${item.media[0]}" class="w-12 h-12 rounded-xl object-cover">
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-gray-800">${item.name}</h4>
+                            <p class="text-gray-400">Talla: ${item.size}</p>
+                            <p class="text-pink-600 font-semibold">$${item.price} x ${item.qty}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            updateCartTotals();
+        }
+
+        function updateCartTotals() {
+            let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const selectCarrier = document.getElementById('cart-carrier-select');
+            let shippingCost = parseFloat(selectCarrier.options[selectCarrier.selectedIndex].getAttribute('data-cost')) || 130;
+            document.getElementById('cart-subtotal').textContent = `$${subtotal.toFixed(2)} MXN`;
+            document.getElementById('cart-shipping-cost').textContent = `$${shippingCost.toFixed(2)} MXN`;
+            document.getElementById('cart-total').textContent = `$${(subtotal + shippingCost).toFixed(2)} MXN`;
+        }
+
+        function checkoutMercadoPago() {
+            sales.push({ id: Date.now(), total: document.getElementById('cart-total').textContent });
+            localStorage.setItem('trendy_sales', JSON.stringify(sales));
+            window.open(mercadoPagoLink || 'https://www.mercadopago.com.mx', '_blank');
+        }
+
+        function checkoutOrderWhatsApp() {
+            sales.push({ id: Date.now(), total: document.getElementById('cart-total').textContent });
+            localStorage.setItem('trendy_sales', JSON.stringify(sales));
+            window.open('https://wa.me/message/AQ3RKX3WMFWYK1?text=Hola,%20quiero%20hacer%20un%20pedido', '_blank');
+        }
+
+        function renderAdminSales() {
+            document.getElementById('admin-sales-container').innerHTML = sales.map(s => `<div class="bg-white p-2 rounded border">Venta ID: ${s.id} - Total: ${s.total}</div>`).join('');
+        }
+
+        function renderAdminProfilesCount() {
+            let registeredUsers = JSON.parse(localStorage.getItem('trendy_users_db')) || [];
+            const counterEl = document.getElementById('admin-total-profiles');
+            const listEl = document.getElementById('admin-profiles-list');
+            
+            if(counterEl) counterEl.textContent = `${registeredUsers.length} compradoras registradas`;
+            if(listEl) {
+                listEl.innerHTML = registeredUsers.length === 0 ? '<span class="text-gray-400 italic">No hay compradoras aún.</span>' : 
+                    registeredUsers.map(u => `<div class="bg-white p-1.5 rounded border text-gray-700">📧 ${u.email}</div>`).join('');
+            }
+        }
+
+        // --- SISTEMA DE AUTENTICACIÓN INDEPENDIENTE (INICIAR SESIÓN / CREAR PERFIL) ---
+        function openAuthModal(mode) {
+            const modal = document.getElementById('auth-modal');
+            const titleEl = document.getElementById('auth-modal-title');
+            const subtitleEl = document.getElementById('auth-modal-subtitle');
+            const btnEl = document.getElementById('auth-submit-btn');
+            const modeInput = document.getElementById('auth-mode-type');
+
+            modeInput.value = mode;
+
+            if(mode === 'login') {
+                titleEl.innerHTML = `<i class="fa-solid fa-right-to-bracket text-pink-500 mr-1"></i> Iniciar Sesión`;
+                subtitleEl.textContent = 'Ingresa tus datos registrados para entrar a tu cuenta.';
+                btnEl.textContent = 'Entrar a mi cuenta';
+            } else {
+                titleEl.innerHTML = `<i class="fa-solid fa-user-plus text-pink-500 mr-1"></i> Crear Perfil`;
+                subtitleEl.textContent = 'Crea tu cuenta de compradora registrando tu correo y contraseña.';
+                btnEl.textContent = 'Registrar y Crear Perfil';
+            }
+
+            document.getElementById('auth-email').value = '';
+            document.getElementById('auth-password').value = '';
+            modal.classList.remove('hidden');
+        }
+
+        function closeAuthModal() { 
+            document.getElementById('auth-modal').classList.add('hidden'); 
+        }
+
+        function processAuth() {
+            const emailInput = document.getElementById('auth-email').value.trim().toLowerCase();
+            const passInput = document.getElementById('auth-password').value.trim();
+            const mode = document.getElementById('auth-mode-type').value;
+
+            if(!emailInput || !passInput) return alert('Por favor llena todos los campos (correo y contraseña).');
+
+            // Administradora (Trendy)
+            const adminEmail = "trendygs99@gmail.com";
+            const adminPass = "Fercameli3*";
+            const adminPin = "3722";
+
+            if(emailInput === adminEmail) {
+                if(passInput === adminPass || passInput === adminPin) {
+                    currentUser = { email: emailInput, role: 'seller' };
+                    localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
+                    closeAuthModal();
+                    checkUserSession();
+                    alert('¡Bienvenida Administradora Trendy! Panel activado.');
+                    return;
+                } else {
+                    return alert('Contraseña de administrador incorrecta.');
+                }
+            }
+
+            let registeredUsers = JSON.parse(localStorage.getItem('trendy_users_db')) || [];
+            let existingUser = registeredUsers.find(u => u.email === emailInput);
+
+            if(mode === 'login') {
+                // Modo Iniciar Sesión
+                if(existingUser) {
+                    if(existingUser.password === passInput) {
+                        currentUser = { email: emailInput, role: 'buyer' };
+                        localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
+                        closeAuthModal();
+                        checkUserSession();
+                        alert('¡Sesión iniciada con éxito!');
+                    } else {
+                        alert('Contraseña incorrecta.');
+                    }
+                } else {
+                    alert('Este correo no está registrado. Por favor usa "Crear perfil".');
+                }
+            } else {
+                // Modo Crear Perfil
+                if(existingUser) {
+                    alert('Este correo ya tiene un perfil registrado. Por favor inicia sesión.');
+                } else {
+                    registeredUsers.push({ email: emailInput, password: passInput });
+                    localStorage.setItem('trendy_users_db', JSON.stringify(registeredUsers));
+                    
+                    currentUser = { email: emailInput, role: 'buyer' };
+                    localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
+                    closeAuthModal();
+                    checkUserSession();
+                    renderAdminProfilesCount();
+                    alert('¡Perfil creado con éxito y acceso seguro configurado!');
+                }
+            }
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('trendy_current_user');
+            checkUserSession();
+            alert('Sesión cerrada.');
+        }
+
+        function checkUserSession() {
+            const panel = document.getElementById('seller-admin-panel');
+            const wrapper = document.getElementById('user-menu-wrapper');
+            
+            if(currentUser && currentUser.role === 'seller') {
+                panel.classList.remove('hidden');
+                wrapper.innerHTML = `
+                    <span class="text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1.5 rounded-full border border-purple-200">Admin Trendy ✨</span>
+                    <button onclick="logoutUser()" class="text-xs text-red-500 font-bold hover:underline ml-1">Salir</button>
+                `;
+            } else if(currentUser && currentUser.role === 'buyer') {
+                panel.classList.add('hidden');
+                wrapper.innerHTML = `
+                    <span class="text-xs font-bold text-pink-600 bg-pink-50 px-3 py-1.5 rounded-full border border-pink-200">👤 ${currentUser.email.split('@')[0]}</span>
+                    <button onclick="logoutUser()" class="text-xs text-red-500 font-bold hover:underline ml-1">Salir</button>
+                `;
+            } else {
+                panel.classList.add('hidden');
+                wrapper.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="flex items-center gap-1 px-3 py-2 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-600 font-bold text-xs transition border border-pink-200">
+                        <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+                    </button>
+                    <button onclick="openAuthModal('register')" class="flex items-center gap-1 px-3 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold text-xs transition shadow-sm">
+                        <i class="fa-solid fa-user-plus"></i> Crear perfil
+                    </button>
+                `;
             }
         }
     </script>
