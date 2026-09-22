@@ -93,9 +93,9 @@
             </div>
         </div>
 
-        <!-- AVISO DE VACACIONES -->
+        <!-- AVISO DE VACACIONES / TIENDA PAUSADA -->
         <div id="vacation-banner" class="hidden bg-amber-100 border border-amber-300 text-amber-800 p-4 rounded-2xl text-center text-xs font-bold">
-            ⚠️ ¡Tienda en pausa temporal por vacaciones o descanso! No se pueden realizar pedidos por el momento.
+            ⚠️ ¡Tienda en pausa temporal! No se pueden realizar nuevos pedidos por el momento.
         </div>
 
         <!-- PANEL DE VENDEDORA (ADMIN) -->
@@ -125,7 +125,7 @@
                         <select id="prod-category" class="p-2.5 rounded-xl border bg-white" required></select>
                         <select id="prod-artist" class="p-2.5 rounded-xl border bg-white" required></select>
                         <input type="text" id="prod-member" placeholder="Integrante opcional" class="p-2.5 rounded-xl border bg-white">
-                        <input type="number" id="prod-stock" placeholder="Stock / Piezas" class="p-2.5 rounded-xl border bg-white">
+                        <input type="number" id="prod-stock" placeholder="Stock / Piezas" required class="p-2.5 rounded-xl border bg-white">
                         <select id="prod-type" class="p-2.5 rounded-xl border bg-white">
                             <option value="Oversize">Corte Oversize</option>
                             <option value="Recto">Corte Recto</option>
@@ -135,11 +135,12 @@
                         <input type="text" id="prod-colors" placeholder="Colores (ej. Negro, Blanco)" required class="p-2.5 rounded-xl border bg-white">
                         <input type="text" id="prod-prep" placeholder="Días preparación" required class="p-2.5 rounded-xl border bg-white">
 
-                        <div class="md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-3 bg-white p-3 rounded-xl border">
-                            <div>
-                                <label class="block font-semibold mb-1">Imagen del Producto:</label>
-                                <input type="file" id="prod-media-files" accept="image/*" class="w-full text-xs">
-                            </div>
+                        <!-- SECCIÓN MULTIMEDIA TIPO MERCADO LIBRE -->
+                        <div class="md:col-span-3 bg-white p-4 rounded-2xl border border-pink-200 space-y-3">
+                            <label class="block font-bold text-gray-700"><i class="fa-solid fa-photo-film text-pink-500 mr-1"></i> Fotos y Videos del Producto (Puedes subir varios):</label>
+                            <input type="file" id="prod-media-input" accept="image/*,video/*" multiple onchange="handleMediaFilesSelected(event)" class="w-full text-xs">
+                            <p class="text-[10px] text-gray-400">Ordena tus archivos usando las flechas para elegir cuál será la portada principal.</p>
+                            <div id="media-preview-container" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-2"></div>
                         </div>
 
                         <div class="md:col-span-3 flex gap-2">
@@ -152,9 +153,9 @@
                 <div class="bg-purple-50/40 p-4 rounded-2xl border border-purple-200">
                     <div class="flex justify-between items-center mb-3">
                         <h4 class="font-bold text-xs text-gray-700"><i class="fa-solid fa-boxes-stacked text-purple-500 mr-1"></i> Gestión de Publicaciones</h4>
-                        <button onclick="toggleGlobalVacation()" id="vacation-toggle-btn" class="px-3 py-1.5 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600">Pausar Tienda</button>
+                        <button onclick="toggleGlobalVacation()" id="vacation-toggle-btn" class="px-3 py-1.5 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600 transition">Pausar Tienda</button>
                     </div>
-                    <div id="admin-products-list" class="space-y-2 max-h-60 overflow-y-auto"></div>
+                    <div id="admin-products-list" class="space-y-2 max-h-72 overflow-y-auto"></div>
                 </div>
             </div>
 
@@ -296,7 +297,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTENTICACIÓN SEGURO (INICIAR SESIÓN / CREAR PERFIL) -->
+    <!-- MODAL AUTENTICACIÓN -->
     <div id="auth-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-center items-center p-4">
         <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl p-6 relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
@@ -320,7 +321,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT DE PERSISTENCIA Y SEGURIDAD -->
+    <!-- SCRIPT DE PERSISTENCIA Y FUNCIONALIDAD -->
     <script>
         let products = JSON.parse(localStorage.getItem('trendy_products')) || [
             { id: 1, name: 'Playera Oversize Bang Chan', price: 380, category: 'Playeras', artist: 'Stray Kids', member: 'Bang Chan', stock: 12, type: 'Oversize', sizes: 'Ch, M, G', colors: 'Negro, Blanco', prep: '3 días', media: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'], paused: false }
@@ -340,6 +341,9 @@
         let globalVacation = JSON.parse(localStorage.getItem('trendy_vacation')) || false;
         let mercadoPagoLink = localStorage.getItem('trendy_mp_link') || '';
 
+        // Array temporal para manejar la multimedia en el formulario de creación/edición tipo ML
+        let currentFormMedia = [];
+
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('store-banner').style.backgroundImage = `url('${savedBanner}')`;
             document.getElementById('header-avatar').src = savedAvatar;
@@ -353,7 +357,7 @@
             renderAdminProfilesCount();
             updateCartBadge();
             checkUserSession();
-            if(globalVacation) document.getElementById('vacation-banner').classList.remove('hidden');
+            updateGlobalVacationUI();
         });
 
         function goHome() {
@@ -403,14 +407,14 @@
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
 
             const filtered = products.filter(p => {
-                if(p.paused) return false;
+                if(globalVacation || p.paused || p.stock <= 0) return false;
                 const matchesCat = currentCategory === 'Todas' || p.category === currentCategory;
                 const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.artist.toLowerCase().includes(searchTerm);
                 return matchesCat && matchesSearch;
             });
 
             if(filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-400 text-xs">No hay productos disponibles.</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-400 text-xs">No hay productos disponibles por el momento.</div>`;
                 return;
             }
 
@@ -419,9 +423,14 @@
                 card.className = 'bg-white rounded-3xl shadow-sm hover:shadow-md transition border border-pink-100 flex flex-col overflow-hidden relative cursor-pointer';
                 card.onclick = () => openProductModal(p.id);
 
+                let mediaElement = `<img src="${p.media[0]}" alt="${p.name}" class="w-full h-full object-cover">`;
+                if(p.media[0].startsWith('data:video') || p.media[0].includes('.mp4')) {
+                    mediaElement = `<video src="${p.media[0]}" class="w-full h-full object-cover" muted></video>`;
+                }
+
                 card.innerHTML = `
                     <div class="h-48 overflow-hidden bg-pink-50/50 relative">
-                        <img src="${p.media[0]}" alt="${p.name}" class="w-full h-full object-cover">
+                        ${mediaElement}
                         <span class="absolute top-3 left-3 bg-white/90 text-gray-600 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">${p.category}</span>
                     </div>
                     <div class="p-4 flex flex-col flex-grow justify-between space-y-3">
@@ -442,20 +451,86 @@
         function nextBanner() { }
         function prevBanner() { }
 
+        // --- MANEJO DE MULTIMEDIA TIPO MERCADO LIBRE ---
+        function handleMediaFilesSelected(event) {
+            const files = event.target.files;
+            if(!files || files.length === 0) return;
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    currentFormMedia.push(e.target.result);
+                    renderFormMediaPreview();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderFormMediaPreview() {
+            const container = document.getElementById('media-preview-container');
+            container.innerHTML = '';
+            if(currentFormMedia.length === 0) {
+                container.innerHTML = `<p class="col-span-full text-gray-400 text-[11px] italic">No hay archivos multimedia seleccionados.</p>`;
+                return;
+            }
+
+            currentFormMedia.forEach((mediaSrc, index) => {
+                let thumb = `<img src="${mediaSrc}" class="w-full h-20 object-cover rounded-xl border">`;
+                if(mediaSrc.startsWith('data:video')) {
+                    thumb = `<video src="${mediaSrc}" class="w-full h-20 object-cover rounded-xl border"></video>`;
+                }
+
+                container.innerHTML += `
+                    <div class="relative bg-gray-50 p-1.5 rounded-2xl border flex flex-col items-center gap-1">
+                        ${thumb}
+                        <span class="text-[9px] font-bold text-gray-500">${index === 0 ? '⭐ Portada' : `#${index+1}`}</span>
+                        <div class="flex gap-1 w-full justify-center">
+                            ${index > 0 ? `<button type="button" onclick="moveMedia(${index}, -1)" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-1.5 py-0.5 rounded text-[10px]"><i class="fa-solid fa-arrow-left"></i></button>` : ''}
+                            ${index < currentFormMedia.length - 1 ? `<button type="button" onclick="moveMedia(${index}, 1)" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-1.5 py-0.5 rounded text-[10px]"><i class="fa-solid fa-arrow-right"></i></button>` : ''}
+                            <button type="button" onclick="removeMedia(${index})" class="bg-red-100 hover:bg-red-200 text-red-600 px-1.5 py-0.5 rounded text-[10px]"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function moveMedia(index, direction) {
+            const target = index + direction;
+            if(target < 0 || target >= currentFormMedia.length) return;
+            const temp = currentFormMedia[index];
+            currentFormMedia[index] = currentFormMedia[target];
+            currentFormMedia[target] = temp;
+            renderFormMediaPreview();
+        }
+
+        function removeMedia(index) {
+            currentFormMedia.splice(index, 1);
+            renderFormMediaPreview();
+        }
+
         function openProductModal(id) {
             const p = products.find(prod => prod.id === id);
             if(!p) return;
             const modal = document.getElementById('product-detail-modal');
             const content = document.getElementById('product-detail-content');
 
+            let mediaGalleryHTML = '';
+            p.media.forEach((m, idx) => {
+                if(m.startsWith('data:video') || m.includes('.mp4')) {
+                    mediaGalleryHTML += `<div class="mb-2"><video src="${m}" controls class="w-full h-64 object-cover rounded-2xl border"></video></div>`;
+                } else {
+                    mediaGalleryHTML += `<div class="mb-2"><img src="${m}" class="w-full h-64 object-cover rounded-2xl border"></div>`;
+                }
+            });
+
             content.innerHTML = `
                 <div class="flex gap-4 flex-col md:flex-row text-xs">
-                    <div class="w-full md:w-1/2"><img src="${p.media[0]}" class="w-full h-64 object-cover rounded-2xl border"></div>
+                    <div class="w-full md:w-1/2 overflow-y-auto max-h-80">${mediaGalleryHTML}</div>
                     <div class="w-full md:w-1/2 space-y-3">
                         <span class="bg-pink-100 text-pink-700 px-2.5 py-1 rounded-full font-bold">${p.category}</span>
                         <h3 class="text-base font-bold text-gray-800">${p.name}</h3>
                         <p class="text-pink-600 font-extrabold text-lg">$${p.price.toFixed(2)} MXN</p>
-                        <p class="text-gray-500"><strong>Corte:</strong> ${p.type} | <strong>Stock:</strong> ${p.stock}</p>
+                        <p class="text-gray-500"><strong>Corte:</strong> ${p.type} | <strong>Stock disponible:</strong> ${p.stock}</p>
                         <div>
                             <label class="block font-semibold mb-1">Talla:</label>
                             <select id="selected-size" class="w-full p-2 rounded-xl border bg-white">${p.sizes.split(',').map(s => `<option value="${s.trim()}">${s.trim()}</option>`).join('')}</select>
@@ -488,24 +563,25 @@
             const sizes = document.getElementById('prod-sizes').value;
             const colors = document.getElementById('prod-colors').value;
             const prep = document.getElementById('prod-prep').value;
-            const mediaFile = document.getElementById('prod-media-files').files[0];
 
-            if(mediaFile) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    saveProductComplete(editId, { name, price, category, artist, member, stock, type, sizes, colors, prep, media: [e.target.result], paused: false });
-                };
-                reader.readAsDataURL(mediaFile);
-            } else {
-                let existingMedia = editId ? products.find(p => p.id == editId).media : ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'];
-                saveProductComplete(editId, { name, price, category, artist, member, stock, type, sizes, colors, prep, media: existingMedia, paused: false });
+            if(currentFormMedia.length === 0) {
+                return alert('Por favor sube al menos una foto o video para tu publicación.');
             }
+
+            saveProductComplete(editId, { 
+                name, price, category, artist, member, stock, type, sizes, colors, prep, 
+                media: [...currentFormMedia], 
+                paused: false 
+            });
         }
 
         function saveProductComplete(editId, prodData) {
             if(editId) {
                 const p = products.find(prod => prod.id == editId);
-                if(p) { Object.assign(p, prodData); }
+                if(p) { 
+                    prodData.paused = p.paused; // Mantener estado de pausa previo si se edita
+                    Object.assign(p, prodData); 
+                }
             } else {
                 prodData.id = Date.now();
                 products.push(prodData);
@@ -514,12 +590,41 @@
             resetProductForm();
             renderProducts();
             renderAdminProductsList();
-            alert('¡Guardado con éxito y respaldado de forma permanente!');
+            alert('¡Publicación guardada y actualizada con éxito!');
+        }
+
+        function editProduct(id) {
+            const p = products.find(prod => prod.id === id);
+            if(!p) return;
+
+            document.getElementById('edit-product-id').value = p.id;
+            document.getElementById('prod-name').value = p.name;
+            document.getElementById('prod-price').value = p.price;
+            document.getElementById('prod-category').value = p.category;
+            document.getElementById('prod-artist').value = p.artist;
+            document.getElementById('prod-member').value = p.member || '';
+            document.getElementById('prod-stock').value = p.stock;
+            document.getElementById('prod-type').value = p.type;
+            document.getElementById('prod-sizes').value = p.sizes;
+            document.getElementById('prod-colors').value = p.colors;
+            document.getElementById('prod-prep').value = p.prep;
+
+            currentFormMedia = [...p.media];
+            renderFormMediaPreview();
+
+            document.getElementById('form-product-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-pink-500 mr-1"></i> Editando Producto: ${p.name}`;
+            document.getElementById('product-submit-btn').textContent = 'Guardar Cambios';
+            document.getElementById('product-cancel-edit').classList.remove('hidden');
+
+            window.scrollTo({ top: 200, behavior: 'smooth' });
         }
 
         function resetProductForm() {
             document.getElementById('product-form').reset();
             document.getElementById('edit-product-id').value = '';
+            currentFormMedia = [];
+            renderFormMediaPreview();
+            document.getElementById('form-product-title').innerHTML = `<i class="fa-solid fa-plus-circle text-pink-500 mr-1"></i> Agregar Nuevo Producto`;
             document.getElementById('product-submit-btn').textContent = 'Publicar Producto';
             document.getElementById('product-cancel-edit').classList.add('hidden');
         }
@@ -527,19 +632,54 @@
         function renderAdminProductsList() {
             const container = document.getElementById('admin-products-list');
             container.innerHTML = products.map(p => `
-                <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border text-xs">
-                    <strong>${p.name}</strong> - $${p.price}
-                    <div class="flex gap-2">
-                        <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1 rounded-lg bg-red-100 text-red-600"><i class="fa-solid fa-trash"></i></button>
+                <div class="flex justify-between items-center bg-white p-3 rounded-2xl border text-xs gap-2">
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <img src="${p.media[0]}" class="w-10 h-10 rounded-xl object-cover">
+                        <div>
+                            <strong>${p.name}</strong> - $${p.price} (Stock: ${p.stock})
+                            <div class="text-[10px] text-gray-400">Estado: ${p.paused ? '🔴 Pausado' : '🟢 Activo'}</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-1.5 flex-shrink-0">
+                        <button onclick="toggleProductPause(${p.id})" class="px-2.5 py-1.5 rounded-xl ${p.paused ? 'bg-green-100 text-green-700 font-bold' : 'bg-amber-100 text-amber-700 font-bold'}" title="Pausar / Activar individual">
+                            ${p.paused ? 'Activar' : 'Pausar'}
+                        </button>
+                        <button onclick="editProduct(${p.id})" class="px-2.5 py-1.5 rounded-xl bg-purple-100 text-purple-600" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1.5 rounded-xl bg-red-100 text-red-600" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
             `).join('');
         }
 
+        function toggleProductPause(id) {
+            const p = products.find(prod => prod.id === id);
+            if(p) {
+                p.paused = !p.paused;
+                localStorage.setItem('trendy_products', JSON.stringify(products));
+                renderProducts();
+                renderAdminProductsList();
+            }
+        }
+
         function toggleGlobalVacation() {
             globalVacation = !globalVacation;
             localStorage.setItem('trendy_vacation', JSON.stringify(globalVacation));
-            document.getElementById('vacation-banner').classList.toggle('hidden', !globalVacation);
+            updateGlobalVacationUI();
+            renderProducts();
+        }
+
+        function updateGlobalVacationUI() {
+            const btn = document.getElementById('vacation-toggle-btn');
+            const banner = document.getElementById('vacation-banner');
+            if(globalVacation) {
+                btn.textContent = 'Reanudar Tienda';
+                btn.className = 'px-3 py-1.5 bg-green-500 text-white font-bold rounded-xl text-xs hover:bg-green-600 transition';
+                banner.classList.remove('hidden');
+            } else {
+                btn.textContent = 'Pausar Tienda';
+                btn.className = 'px-3 py-1.5 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600 transition';
+                banner.classList.add('hidden');
+            }
         }
 
         function deleteProduct(id) {
@@ -582,7 +722,7 @@
                     savedBanner = e.target.result;
                     localStorage.setItem('trendy_banner_image', savedBanner);
                     document.getElementById('store-banner').style.backgroundImage = `url('${savedBanner}')`;
-                    alert('¡Portada actualizada y respaldada permanentemente!');
+                    alert('¡Portada actualizada correctamente!');
                 };
                 reader.readAsDataURL(file);
             }
@@ -596,7 +736,7 @@
                     savedAvatar = e.target.result;
                     localStorage.setItem('trendy_avatar_image', savedAvatar);
                     document.getElementById('header-avatar').src = savedAvatar;
-                    alert('¡Foto de perfil actualizada y respaldada permanentemente!');
+                    alert('¡Foto de perfil actualizada correctamente!');
                 };
                 reader.readAsDataURL(file);
             }
@@ -621,7 +761,7 @@
         }
 
         function addCurrentProductToCart(id) {
-            if(globalVacation) return alert('Tienda en pausa.');
+            if(globalVacation) return alert('Tienda en pausa temporal.');
             const p = products.find(prod => prod.id === id);
             const size = document.getElementById('selected-size').value;
             const color = document.getElementById('selected-color').value;
@@ -652,7 +792,7 @@
                         <img src="${item.media[0]}" class="w-12 h-12 rounded-xl object-cover">
                         <div class="flex-grow">
                             <h4 class="font-bold text-gray-800">${item.name}</h4>
-                            <p class="text-gray-400">Talla: ${item.size}</p>
+                            <p class="text-gray-400">Talla: ${item.size} | Color: ${item.color}</p>
                             <p class="text-pink-600 font-semibold">$${item.price} x ${item.qty}</p>
                         </div>
                     </div>
@@ -698,7 +838,7 @@
             }
         }
 
-        // --- SISTEMA DE AUTENTICACIÓN (INICIAR SESIÓN / CREAR PERFIL) ---
+        // --- SISTEMA DE AUTENTICACIÓN ---
         function openAuthModal(mode) {
             const modal = document.getElementById('auth-modal');
             const titleEl = document.getElementById('auth-modal-title');
@@ -714,7 +854,7 @@
                 btnEl.textContent = 'Entrar a mi cuenta';
             } else {
                 titleEl.innerHTML = `<i class="fa-solid fa-user-plus text-pink-500 mr-1"></i> Crear Perfil`;
-                subtitleEl.textContent = 'Crea tu cuenta de compradora con correo y contraseña obligatoria.';
+                subtitleEl.textContent = 'Crea tu cuenta de compradora con correo y contraseña.';
                 btnEl.textContent = 'Registrar y Crear Perfil';
             }
 
@@ -732,9 +872,8 @@
             const passInput = document.getElementById('auth-password').value.trim();
             const mode = document.getElementById('auth-mode-type').value;
 
-            if(!emailInput || !passInput) return alert('Por favor llena todos los campos (correo y contraseña).');
+            if(!emailInput || !passInput) return alert('Por favor llena todos los campos.');
 
-            // Administradora (Trendy)
             const adminEmail = "trendygs99@gmail.com";
             const adminPass = "Fercameli3*";
             const adminPin = "3722";
@@ -745,7 +884,7 @@
                     localStorage.setItem('trendy_current_user', JSON.stringify(currentUser));
                     closeAuthModal();
                     checkUserSession();
-                    alert('¡Bienvenida Administradora Trendy! Panel activado.');
+                    alert('¡Bienvenida Administradora Trendy!');
                     return;
                 } else {
                     return alert('Contraseña de administrador incorrecta.');
@@ -767,11 +906,11 @@
                         alert('Contraseña incorrecta.');
                     }
                 } else {
-                    alert('Este correo no está registrado. Por favor usa "Crear perfil".');
+                    alert('Este correo no está registrado.');
                 }
             } else {
                 if(existingUser) {
-                    alert('Este correo ya tiene un perfil registrado. Por favor inicia sesión.');
+                    alert('Este correo ya tiene un perfil registrado.');
                 } else {
                     registeredUsers.push({ email: emailInput, password: passInput });
                     localStorage.setItem('trendy_users_db', JSON.stringify(registeredUsers));
@@ -781,7 +920,7 @@
                     closeAuthModal();
                     checkUserSession();
                     renderAdminProfilesCount();
-                    alert('¡Perfil creado con éxito y acceso seguro configurado!');
+                    alert('¡Perfil creado con éxito!');
                 }
             }
         }
