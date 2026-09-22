@@ -35,7 +35,7 @@
             <!-- LOGO / AVATAR -->
             <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
                 <div class="w-10 h-10 rounded-full overflow-hidden bg-pink-100 flex items-center justify-center border border-pink-300">
-                    <img id="header-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="TGS" class="w-full h-full object-cover">
+                    <img id="header-avatar" src="" alt="TGS" class="w-full h-full object-cover">
                 </div>
                 <div>
                     <h1 class="text-xl font-bold text-pink-600 leading-tight flex items-center gap-1.5">
@@ -66,7 +66,7 @@
 
     <!-- BANNER CARRUSEL SUPERIOR -->
     <div class="max-w-7xl mx-auto px-4 mt-4 w-full">
-        <div id="store-banner" class="w-full h-48 sm:h-64 rounded-3xl bg-cover bg-center relative shadow-md flex items-center justify-between px-4 transition-all duration-500" style="background-image: url('https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200');">
+        <div id="store-banner" class="w-full h-48 sm:h-64 rounded-3xl bg-cover bg-center relative shadow-md flex items-center justify-between px-4 transition-all duration-500">
             <button onclick="prevBanner()" class="w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition">
                 <i class="fa-solid fa-chevron-left text-xs"></i>
             </button>
@@ -93,7 +93,7 @@
             </div>
         </div>
 
-        <!-- AVISO DE VACACIONES / TIENDA PAUSADA -->
+        <!-- AVISO DE TIENDA PAUSADA -->
         <div id="vacation-banner" class="hidden bg-amber-100 border border-amber-300 text-amber-800 p-4 rounded-2xl text-center text-xs font-bold">
             ⚠️ ¡Tienda en pausa temporal! No se pueden realizar nuevos pedidos por el momento.
         </div>
@@ -303,7 +303,7 @@
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
             <div class="space-y-4">
                 <h3 id="auth-modal-title" class="font-bold text-md text-gray-700 text-center"><i class="fa-solid fa-user-circle text-pink-500 mr-1"></i> Iniciar Sesión</h3>
-                <p id="auth-modal-subtitle" class="text-[11px] text-gray-400 text-center">Ingresa tu correo y contraseña obligatoria para acceder.</p>
+                <p id="auth-modal-subtitle" class="text-[11px] text-gray-400 text-center">Ingresa tu correo y contraseña para acceder.</p>
                 
                 <input type="hidden" id="auth-mode-type" value="login">
                 
@@ -313,7 +313,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-semibold mb-1">Contraseña:</label>
-                    <input type="password" id="auth-password" placeholder="Tu contraseña obligatoria" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
+                    <input type="password" id="auth-password" placeholder="Tu contraseña" class="w-full p-2.5 text-xs rounded-xl border bg-gray-50 font-medium">
                 </div>
                 
                 <button onclick="processAuth()" id="auth-submit-btn" class="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-2xl text-xs font-bold shadow transition">Entrar a mi cuenta</button>
@@ -321,13 +321,13 @@
         </div>
     </div>
 
-    <!-- SCRIPT DE PERSISTENCIA Y FUNCIONALIDAD -->
+    <!-- SCRIPT COMPLETO -->
     <script>
         let products = JSON.parse(localStorage.getItem('trendy_products')) || [
             { id: 1, name: 'Playera Oversize Bang Chan', price: 380, category: 'Playeras', artist: 'Stray Kids', member: 'Bang Chan', stock: 12, type: 'Oversize', sizes: 'Ch, M, G', colors: 'Negro, Blanco', prep: '3 días', media: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500'], paused: false }
         ];
 
-        let categories = JSON.parse(localStorage.getItem('trendy_categories')) || ['Playeras', 'Hoodies', 'Photocards', 'Accesorios'];
+        let categories = JSON.parse(localStorage.getItem('trendy_categories')) || ['Playeras', 'Hoodies', 'Photocards', 'Accesorios', 'Tote bag'];
         let artists = JSON.parse(localStorage.getItem('trendy_artists')) || ['BTS', 'Stray Kids', 'BLACKPINK', 'Varios'];
         let coupons = JSON.parse(localStorage.getItem('trendy_coupons')) || [];
         let sales = JSON.parse(localStorage.getItem('trendy_sales')) || [];
@@ -341,7 +341,6 @@
         let globalVacation = JSON.parse(localStorage.getItem('trendy_vacation')) || false;
         let mercadoPagoLink = localStorage.getItem('trendy_mp_link') || '';
 
-        // Array temporal para manejar la multimedia en el formulario de creación/edición tipo ML
         let currentFormMedia = [];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -448,10 +447,9 @@
             });
         }
 
-        function nextBanner() { }
-        function prevBanner() { }
+        function nextBanner() {}
+        function prevBanner() {}
 
-        // --- MANEJO DE MULTIMEDIA TIPO MERCADO LIBRE ---
         function handleMediaFilesSelected(event) {
             const files = event.target.files;
             if(!files || files.length === 0) return;
@@ -515,7 +513,7 @@
             const content = document.getElementById('product-detail-content');
 
             let mediaGalleryHTML = '';
-            p.media.forEach((m, idx) => {
+            p.media.forEach((m) => {
                 if(m.startsWith('data:video') || m.includes('.mp4')) {
                     mediaGalleryHTML += `<div class="mb-2"><video src="${m}" controls class="w-full h-64 object-cover rounded-2xl border"></video></div>`;
                 } else {
@@ -579,7 +577,7 @@
             if(editId) {
                 const p = products.find(prod => prod.id == editId);
                 if(p) { 
-                    prodData.paused = p.paused; // Mantener estado de pausa previo si se edita
+                    prodData.paused = p.paused;
                     Object.assign(p, prodData); 
                 }
             } else {
@@ -641,11 +639,11 @@
                         </div>
                     </div>
                     <div class="flex gap-1.5 flex-shrink-0">
-                        <button onclick="toggleProductPause(${p.id})" class="px-2.5 py-1.5 rounded-xl ${p.paused ? 'bg-green-100 text-green-700 font-bold' : 'bg-amber-100 text-amber-700 font-bold'}" title="Pausar / Activar individual">
+                        <button onclick="toggleProductPause(${p.id})" class="px-2.5 py-1.5 rounded-xl ${p.paused ? 'bg-green-100 text-green-700 font-bold' : 'bg-amber-100 text-amber-700 font-bold'}">
                             ${p.paused ? 'Activar' : 'Pausar'}
                         </button>
-                        <button onclick="editProduct(${p.id})" class="px-2.5 py-1.5 rounded-xl bg-purple-100 text-purple-600" title="Editar"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1.5 rounded-xl bg-red-100 text-red-600" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="editProduct(${p.id})" class="px-2.5 py-1.5 rounded-xl bg-purple-100 text-purple-600"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1.5 rounded-xl bg-red-100 text-red-600"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
             `).join('');
@@ -696,6 +694,7 @@
                 localStorage.setItem('trendy_categories', JSON.stringify(categories));
                 document.getElementById('new-category-input').value = '';
                 renderCategoriesUI();
+                renderAdminCategoriesAndArtists();
             }
         }
 
@@ -706,6 +705,7 @@
                 localStorage.setItem('trendy_artists', JSON.stringify(artists));
                 document.getElementById('new-artist-input').value = '';
                 renderArtistsUI();
+                renderAdminCategoriesAndArtists();
             }
         }
 
@@ -786,7 +786,7 @@
         function renderCartItems() {
             const container = document.getElementById('cart-items-container');
             container.innerHTML = cart.length === 0 ? `<p class="text-xs text-gray-400 text-center py-6">Tu carrito está vacío.</p>` : '';
-            cart.forEach((item, index) => {
+            cart.forEach((item) => {
                 container.innerHTML += `
                     <div class="flex items-center justify-between gap-3 bg-pink-50/40 p-3 rounded-2xl border text-xs">
                         <img src="${item.media[0]}" class="w-12 h-12 rounded-xl object-cover">
@@ -813,17 +813,19 @@
         function checkoutMercadoPago() {
             sales.push({ id: Date.now(), total: document.getElementById('cart-total').textContent });
             localStorage.setItem('trendy_sales', JSON.stringify(sales));
+            renderAdminSales();
             window.open(mercadoPagoLink || 'https://www.mercadopago.com.mx', '_blank');
         }
 
         function checkoutOrderWhatsApp() {
             sales.push({ id: Date.now(), total: document.getElementById('cart-total').textContent });
             localStorage.setItem('trendy_sales', JSON.stringify(sales));
+            renderAdminSales();
             window.open('https://wa.me/message/AQ3RKX3WMFWYK1?text=Hola,%20quiero%20hacer%20un%20pedido', '_blank');
         }
 
         function renderAdminSales() {
-            document.getElementById('admin-sales-container').innerHTML = sales.map(s => `<div class="bg-white p-2 rounded border">Venta ID: ${s.id} - Total: ${s.total}</div>`).join('');
+            document.getElementById('admin-sales-container').innerHTML = sales.length === 0 ? '<p class="italic text-gray-400">No hay ventas registradas todavía.</p>' : sales.map(s => `<div class="bg-white p-2 rounded border">Venta ID: ${s.id} - Total: ${s.total}</div>`).join('');
         }
 
         function renderAdminProfilesCount() {
@@ -834,11 +836,10 @@
             if(counterEl) counterEl.textContent = `${registeredUsers.length} compradoras registradas`;
             if(listEl) {
                 listEl.innerHTML = registeredUsers.length === 0 ? '<span class="text-gray-400 italic">No hay compradoras aún.</span>' : 
-                    registeredUsers.map(u => `<div class="bg-white p-1.5 rounded border text-gray-700">📧 ${u.email}</div>`).join('');
+                    registeredUsers.map(u => `<div class="bg-white p-1.5 rounded border text-gray-700 font-semibold">📧 ${u.email}</div>`).join('');
             }
         }
 
-        // --- SISTEMA DE AUTENTICACIÓN ---
         function openAuthModal(mode) {
             const modal = document.getElementById('auth-modal');
             const titleEl = document.getElementById('auth-modal-title');
@@ -920,7 +921,7 @@
                     closeAuthModal();
                     checkUserSession();
                     renderAdminProfilesCount();
-                    alert('¡Perfil creado con éxito!');
+                    alert('¡Perfil creado con éxito y guardado!');
                 }
             }
         }
